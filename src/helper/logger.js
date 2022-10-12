@@ -1,5 +1,4 @@
 /* eslint-disable unicorn/prefer-module */
-/* eslint-disable prettier/prettier */
 const chalk = require('chalk');
 const os = require('os');
 

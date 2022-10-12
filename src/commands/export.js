@@ -1,14 +1,9 @@
-/* eslint-disable prettier/prettier */
 /* eslint-disable no-useless-catch */
-
 /* eslint-disable array-callback-return */
-
 /* eslint-disable unicorn/consistent-destructuring */
-
 /* eslint-disable one-var */
 /* eslint-disable prefer-const */
 /* eslint-disable import/no-dynamic-require */
-/* eslint-disable prettier/prettier */
 /* eslint-disable unicorn/prefer-module */
 
 const { Command } = require('@oclif/core');

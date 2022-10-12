@@ -4,8 +4,6 @@
 /* eslint-disable unicorn/prefer-array-some */
 /* eslint-disable no-unused-vars */
 /* eslint-disable unicorn/prefer-module */
-/* eslint-disable prettier/prettier */
-/* eslint-disable no-return-await */
 /* eslint-disable no-loop-func */
 /* eslint-disable no-shadow */
 /* eslint-disable no-await-in-loop */
@@ -158,7 +156,6 @@ async function dbUpdateTask(dbConnection, dbscriptPath, revertScriptPath) {
                                             const sql = (await fs.readFile(revertScriptPath)).toString().replace(/(\r\n|\n|\r)/gm, '');
                                             const queries = sql.split(';/');
                                             for (let i = 0; i < queries.length; i++) {
-                                                // eslint-disable-next-line no-param-reassign
                                                 queries[i] = queries[i].trim();
                                                 if (queries[i].length !== 0) {
                                                     await dbConnection.execute(queries[i]);

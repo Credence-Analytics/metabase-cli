@@ -1,10 +1,7 @@
 /* eslint-disable prefer-template */
 /* eslint-disable prefer-const */
-/* eslint-disable prettier/prettier */
 /* eslint-disable unicorn/prefer-module */
 /* eslint-disable eqeqeq */
-/* eslint-disable comma-dangle */
-/* eslint-disable object-curly-spacing */
 
 const path = require('path');
 const fs = require('fs');

@@ -3,7 +3,7 @@
 /* eslint-disable node/no-extraneous-require */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable import/no-dynamic-require */
-/* eslint-disable prettier/prettier */
+
 /* eslint-disable unicorn/prefer-module */
 
 const cmdObj = require('@oclif/core');
@@ -22,7 +22,7 @@ updateNotifier({ pkg }).notify();
 
 console.log(chalk.blueBright(`METABASE`));
 
-global.CREDCLI_PATH = path.resolve(__dirname, '../');
+global.METABASE_PATH = path.resolve(__dirname, '../');
 const configFilePath = util.initCredConfig();
 global.credConfig = null;
 if (fs.existsSync(configFilePath)) {
