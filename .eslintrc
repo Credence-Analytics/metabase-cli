@@ -1,0 +1,28 @@
+{
+    "env": {
+        "commonjs": true,
+        "es6": true,
+        "node": true,
+        "mocha": true
+    },
+    "extends": ["oclif", "airbnb-base", "eslint:recommended", "plugin:prettier/recommended"],
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly",
+        "funclib": "readonly",
+        "logger": "readonly",
+        "config": "readonly"
+    },
+    "parserOptions": {
+        "ecmaVersion": 2018
+    },
+    "rules": {
+        "func-names": "warn",
+        "no-param-reassign": ["error", { "props": false }],
+        "no-undef": "warn",
+        "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+        "no-shadow": ["error", { "builtinGlobals": false, "hoist": "functions", "allow": [] }],
+        "no-self-assign": ["error", { "props": false }],
+        "no-console": ["error", { "allow": ["warn", "error", "log"] }]
+    }
+}

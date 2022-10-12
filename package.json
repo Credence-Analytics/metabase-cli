@@ -1,0 +1,121 @@
+{
+    "name": "metabase",
+    "version": "0.0.0",
+    "description": "metabase cli for cred cli",
+    "author": "Hamza Shaikh @fjorn-x",
+    "bin": {
+        "metabase": "./bin/run"
+    },
+    "homepage": "https://github.com/Credence-Analytics/metabase-cli",
+    "license": "MIT",
+    "main": "dist/index.js",
+    "repository": "fjorn-x/metabase",
+    "files": [
+        "/bin",
+        "/dist",
+        "/npm-shrinkwrap.json",
+        "/oclif.manifest.json"
+    ],
+    "dependencies": {
+        "@oclif/core": "^1.16.5",
+        "@oclif/plugin-help": "^5",
+        "cli-ux": "^5.5.1",
+        "@oclif/plugin-plugins": "^2.1.1",
+        "archiver": "^5.1.0",
+        "axios": "^0.19.2",
+        "chalk": "^4.1.0",
+        "cli-table3": "^0.6.0",
+        "cred-fs-util": "^1.0.9",
+        "dockerode": "^3.2.1",
+        "dotenv": "^8.2.0",
+        "enquirer": "^2.3.6",
+        "eol": "^0.9.1",
+        "extract-zip": "^2.0.1",
+        "form-data": "^4.0.0",
+        "fs-extra": "^9.0.1",
+        "git-diff-parser": "^1.0.0",
+        "globby": "^10.0.2",
+        "inquirer": "^7.3.3",
+        "listr": "^0.14.3",
+        "listr-inquirer": "^0.1.0",
+        "lodash": "^4.17.21",
+        "moment": "^2.29.4",
+        "monitorctrlc": "^2.0.1",
+        "mustache": "^4.1.0",
+        "node-fetch": "^2.6.1",
+        "oracledb": "^5.1.0",
+        "pm2-promise": "^2.0.1",
+        "simple-git": "^2.31.0",
+        "update-notifier": "^5.0.1",
+        "vm2": "^3.9.2",
+        "winston": "^3.3.3",
+        "winston-daily-rotate-file": "^4.5.0",
+        "yaml": "^1.10.0"
+    },
+    "devDependencies": {
+        "@oclif/test": "^2.2.2",
+        "@commitlint/cli": "^11.0.0",
+        "@commitlint/config-conventional": "^11.0.0",
+        "chai": "^4",
+        "eslint": "^7.32.0",
+        "adm-zip": "^0.4.16",
+        "eslint-config-oclif": "^4",
+        "eslint-config-airbnb-base": "^14.2.1",
+        "eslint-config-prettier": "^8.5.0",
+        "eslint-plugin-import": "^2.22.1",
+        "eslint-plugin-prettier": "^4.2.1",
+        "mocha": "^9",
+        "husky": "^4.3.6",
+        "oclif": "^3",
+        "lint-staged": "^10.5.3",
+        "prettier": "^2.7.1",
+        "shx": "^0.3.3",
+        "mochawesome": "^6.2.1",
+        "nyc": "^14.1.1",
+        "dir-compare": "^2.4.0"
+    },
+    "oclif": {
+        "bin": "metabase",
+        "dirname": "metabase",
+        "commands": "./dist/commands",
+        "plugins": [
+            "@oclif/plugin-help",
+            "@oclif/plugin-plugins"
+        ],
+        "topicSeparator": " ",
+        "topics": {
+            "hello": {
+                "description": "Say hello to the world and others"
+            }
+        }
+    },
+    "scripts": {
+        "build": "shx rm -rf dist && tsc -b",
+        "lint": "eslint . --ext .ts --config .eslintrc",
+        "postpack": "shx rm -f oclif.manifest.json",
+        "posttest": "yarn lint",
+        "prepack": "yarn build && oclif manifest && oclif readme",
+        "test": "mocha --forbid-only \"test/**/*.test.ts\"",
+        "version": "oclif readme && git add README.md"
+    },
+    "engines": {
+        "node": ">=12.0.0"
+    },
+    "bugs": "https://github.com/fjorn-x/metabase/issues",
+    "keywords": [
+        "oclif"
+    ],
+    "types": "dist/index.d.ts",
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged",
+            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+        }
+    },
+    "lint-staged": {
+        "*.{js,test.js}": [
+            "prettier --write",
+            "eslint"
+        ]
+    }
+}

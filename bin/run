@@ -1,0 +1,32 @@
+#!/usr/bin/env node
+/* eslint-disable no-unused-vars */
+/* eslint-disable node/no-extraneous-require */
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable import/no-dynamic-require */
+/* eslint-disable prettier/prettier */
+/* eslint-disable unicorn/prefer-module */
+
+const cmdObj = require('@oclif/core');
+const chalk = require('chalk');
+const path = require('path');
+const fs = require('fs-extra');
+const os = require('os');
+
+const pkg = require(path.join(__dirname, '../package.json'));
+
+const updateNotifier = require('update-notifier');
+
+const util = require(path.join(__dirname, '../src/util.js'));
+
+updateNotifier({ pkg }).notify();
+
+console.log(chalk.blueBright(`METABASE`));
+
+global.CREDCLI_PATH = path.resolve(__dirname, '../');
+const configFilePath = util.initCredConfig();
+global.credConfig = null;
+if (fs.existsSync(configFilePath)) {
+    global.credConfig = JSON.parse(fs.readFileSync(configFilePath));
+}
+
+cmdObj.run().then(require('@oclif/command/flush')).catch(require('@oclif/errors/handle'));
