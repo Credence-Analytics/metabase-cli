@@ -58,7 +58,7 @@
         "@commitlint/config-conventional": "^11.0.0",
         "chai": "^4",
         "eslint": "^7.32.0",
-        "adm-zip": "^0.4.16",
+        "adm-zip": "^0.5.9",
         "eslint-config-oclif": "^4",
         "eslint-config-airbnb-base": "^14.2.1",
         "eslint-config-prettier": "^8.5.0",
