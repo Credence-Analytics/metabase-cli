@@ -41,15 +41,13 @@ let addMacroConfiguration = async (options) => {
 };
 
 const initCredConfig = () => {
-    if (!fs.existsSync(path.join(global.CREDCLI_PATH, 'credcli_cfg.json'))) {
+    if (!fs.existsSync(path.join(global.METABASE_PATH, 'metacli_cfg.json'))) {
         const config = {
-            appbuilder: {},
-            pagebuilder: {},
             metabase: {},
         };
-        fs.writeFileSync(path.join(global.CREDCLI_PATH, 'credcli_cfg.json'), JSON.stringify(config, null, 2));
+        fs.writeFileSync(path.join(global.METABASE_PATH, 'metacli_cfg.json'), JSON.stringify(config, null, 2));
     }
-    return path.join(global.CREDCLI_PATH, 'credcli_cfg.json');
+    return path.join(global.METABASE_PATH, 'metacli_cfg.json');
 };
 
 module.exports = { addMacroConfiguration, initCredConfig };

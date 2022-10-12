@@ -1,4 +1,3 @@
-/* eslint-disable node/no-unsupported-features/es-syntax */
 /* eslint-disable prefer-const */
 /* eslint-disable import/no-dynamic-require */
 /* eslint-disable unicorn/prefer-optional-catch-binding */
@@ -9,22 +8,25 @@
 /* eslint-disable unicorn/better-regex */
 /* eslint-disable camelcase */
 /* eslint-disable unicorn/prefer-module */
-/* eslint-disable unicorn/prefer-node-protocol */
+// import { Command } from '@oclif/core';
+// import path from 'path';
+// import { prompt } from 'enquirer';
+// import * as fs from 'fs';
+// import chalk from 'chalk';
+const { Command } = require('@oclif/core');
+const path = require('path');
+const { prompt } = require('enquirer');
+const chalk = require('chalk');
+const fs = require('fs');
 
-import { Command } from '@oclif/core';
-import path from 'path';
-import { prompt } from 'enquirer';
-import * as fs from 'fs';
-import chalk from 'chalk';
+const { errorHandler } = require(path.join(__dirname, '../helper/patch/utils.js'));
 
-const { errorHandler } = require(path.join(__dirname, '../../helper/patch/utils.js'));
+const util = require(path.join(__dirname, '../util.js'));
 
-const util = require(path.join(__dirname, '../../util.js'));
-
-const { setConsoleLog, initLogger, CredError } = require(path.join(__dirname, '../../helper/logger.js'));
+const { setConsoleLog, initLogger, CredError } = require(path.join(__dirname, '../helper/logger.js'));
 
 const logger = initLogger('metabase');
-const { sendRequest } = require(path.join(__dirname, '../../helper/api-utils.js'));
+const { sendRequest } = require(path.join(__dirname, '../helper/api-utils.js'));
 setConsoleLog(Command);
 
 async function checkUserSession(metabase_url) {
@@ -131,6 +133,4 @@ class InitCommand extends Command {
 InitCommand.description = `Initialize metabase configurations
 `;
 
-InitCommand.flags = {};
-
-export default InitCommand;
+module.exports = InitCommand;

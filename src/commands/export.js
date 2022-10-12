@@ -13,11 +13,11 @@ const fs = require('fs-extra');
 const chalk = require('chalk');
 const moment = require('moment');
 
-const { errorHandler } = require(path.join(__dirname, '../../helper/patch/utils.js'));
-const { setConsoleLog, initLogger, CredError } = require(path.join(__dirname, '../../helper/logger.js'));
+const { errorHandler } = require(path.join(__dirname, '../helper/patch/utils.js'));
+const { setConsoleLog, initLogger, CredError } = require(path.join(__dirname, '../helper/logger.js'));
 
 const logger = initLogger('metabase');
-const { sendRequest, validateCredConfig, getMetabaseSessionID } = require(path.join(__dirname, '../../helper/api-utils.js'));
+const { sendRequest, validateCredConfig, getMetabaseSessionID } = require(path.join(__dirname, '../helper/api-utils.js'));
 
 setConsoleLog(Command);
 

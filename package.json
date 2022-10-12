@@ -1,18 +1,19 @@
 {
     "name": "metabase",
     "version": "0.0.0",
-    "description": "metabase cli for cred cli",
-    "author": "Hamza Shaikh @fjorn-x",
+    "description": "Credence Metabase CLI",
+    "author": "vikasprabhu@credenceanalytics.com",
+    "type": "commonjs",
     "bin": {
         "metabase": "./bin/run"
     },
     "homepage": "https://github.com/Credence-Analytics/metabase-cli",
     "license": "MIT",
-    "main": "dist/index.js",
+    "main": "src/index.js",
     "repository": "fjorn-x/metabase",
     "files": [
         "/bin",
-        "/dist",
+        "/src",
         "/npm-shrinkwrap.json",
         "/oclif.manifest.json"
     ],
@@ -20,7 +21,6 @@
         "@oclif/core": "^1.16.5",
         "@oclif/plugin-help": "^5",
         "cli-ux": "^5.5.1",
-        "@oclif/plugin-plugins": "^2.1.1",
         "archiver": "^5.1.0",
         "axios": "^0.19.2",
         "chalk": "^4.1.0",
@@ -76,18 +76,11 @@
     },
     "oclif": {
         "bin": "metabase",
-        "dirname": "metabase",
-        "commands": "./dist/commands",
+        "commands": "./src/commands",
         "plugins": [
             "@oclif/plugin-help",
             "@oclif/plugin-plugins"
-        ],
-        "topicSeparator": " ",
-        "topics": {
-            "hello": {
-                "description": "Say hello to the world and others"
-            }
-        }
+        ]
     },
     "scripts": {
         "build": "shx rm -rf dist && tsc -b",
@@ -105,7 +98,7 @@
     "keywords": [
         "oclif"
     ],
-    "types": "dist/index.d.ts",
+    "types": "src/index.js",
     "husky": {
         "hooks": {
             "pre-commit": "lint-staged",
