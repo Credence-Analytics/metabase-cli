@@ -41,7 +41,7 @@
         "lodash": "^4.17.21",
         "moment": "^2.29.4",
         "monitorctrlc": "^2.0.1",
-        "mustache": "^4.1.0",
+        "mustache": "^4.2.0",
         "node-fetch": "^2.6.1",
         "oracledb": "^5.1.0",
         "pm2-promise": "^2.0.1",
