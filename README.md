@@ -1,20 +1,19 @@
-oclif-hello-world
-=================
+# oclif-hello-world
 
 oclif example Hello World CLI
 
-[![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
-[![Version](https://img.shields.io/npm/v/oclif-hello-world.svg)](https://npmjs.org/package/oclif-hello-world)
-[![CircleCI](https://circleci.com/gh/oclif/hello-world/tree/main.svg?style=shield)](https://circleci.com/gh/oclif/hello-world/tree/main)
-[![Downloads/week](https://img.shields.io/npm/dw/oclif-hello-world.svg)](https://npmjs.org/package/oclif-hello-world)
-[![License](https://img.shields.io/npm/l/oclif-hello-world.svg)](https://github.com/oclif/hello-world/blob/main/package.json)
+[![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io) [![Version](https://img.shields.io/npm/v/oclif-hello-world.svg)](https://npmjs.org/package/oclif-hello-world) [![Downloads/week](https://img.shields.io/npm/dw/oclif-hello-world.svg)](https://npmjs.org/package/oclif-hello-world) [![License](https://img.shields.io/npm/l/oclif-hello-world.svg)](https://github.com/oclif/hello-world/blob/main/package.json)
 
 <!-- toc -->
-* [Usage](#usage)
-* [Commands](#commands)
+
+-   [Usage](#usage)
+-   [Commands](#commands)
 <!-- tocstop -->
+
 # Usage
+
 <!-- usage -->
+
 ```sh-session
 $ npm install -g metabase
 $ metabase COMMAND
@@ -26,21 +25,25 @@ USAGE
   $ metabase COMMAND
 ...
 ```
+
 <!-- usagestop -->
+
 # Commands
+
 <!-- commands -->
-* [`metabase hello PERSON`](#metabase-hello-person)
-* [`metabase hello world`](#metabase-hello-world)
-* [`metabase help [COMMAND]`](#metabase-help-command)
-* [`metabase plugins`](#metabase-plugins)
-* [`metabase plugins:install PLUGIN...`](#metabase-pluginsinstall-plugin)
-* [`metabase plugins:inspect PLUGIN...`](#metabase-pluginsinspect-plugin)
-* [`metabase plugins:install PLUGIN...`](#metabase-pluginsinstall-plugin-1)
-* [`metabase plugins:link PLUGIN`](#metabase-pluginslink-plugin)
-* [`metabase plugins:uninstall PLUGIN...`](#metabase-pluginsuninstall-plugin)
-* [`metabase plugins:uninstall PLUGIN...`](#metabase-pluginsuninstall-plugin-1)
-* [`metabase plugins:uninstall PLUGIN...`](#metabase-pluginsuninstall-plugin-2)
-* [`metabase plugins update`](#metabase-plugins-update)
+
+-   [`metabase hello PERSON`](#metabase-hello-person)
+-   [`metabase hello world`](#metabase-hello-world)
+-   [`metabase help [COMMAND]`](#metabase-help-command)
+-   [`metabase plugins`](#metabase-plugins)
+-   [`metabase plugins:install PLUGIN...`](#metabase-pluginsinstall-plugin)
+-   [`metabase plugins:inspect PLUGIN...`](#metabase-pluginsinspect-plugin)
+-   [`metabase plugins:install PLUGIN...`](#metabase-pluginsinstall-plugin-1)
+-   [`metabase plugins:link PLUGIN`](#metabase-pluginslink-plugin)
+-   [`metabase plugins:uninstall PLUGIN...`](#metabase-pluginsuninstall-plugin)
+-   [`metabase plugins:uninstall PLUGIN...`](#metabase-pluginsuninstall-plugin-1)
+-   [`metabase plugins:uninstall PLUGIN...`](#metabase-pluginsuninstall-plugin-2)
+-   [`metabase plugins update`](#metabase-plugins-update)
 
 ## `metabase hello PERSON`
 
@@ -153,7 +156,7 @@ ALIASES
   $ metabase plugins add
 
 EXAMPLES
-  $ metabase plugins:install myplugin 
+  $ metabase plugins:install myplugin
 
   $ metabase plugins:install https://github.com/someuser/someplugin
 
@@ -213,7 +216,7 @@ ALIASES
   $ metabase plugins add
 
 EXAMPLES
-  $ metabase plugins:install myplugin 
+  $ metabase plugins:install myplugin
 
   $ metabase plugins:install https://github.com/someuser/someplugin
 
@@ -331,4 +334,5 @@ FLAGS
 DESCRIPTION
   Update installed plugins.
 ```
+
 <!-- commandsstop -->

@@ -1,0 +1,118 @@
+{
+    "date": "2022-10-13",
+    "type": "D",
+    "typename": "testing-dashboard",
+    "data": {
+        "description": null,
+        "archived": false,
+        "collection_position": null,
+        "ordered_cards": [
+            {
+                "sizeX": 4,
+                "series": [],
+                "collection_authority_level": null,
+                "card": {
+                    "description": null,
+                    "archived": false,
+                    "collection_position": null,
+                    "table_id": null,
+                    "result_metadata": [
+                        {
+                            "name": "TABLE_NAME",
+                            "display_name": "TABLE_NAME",
+                            "base_type": "type/Text",
+                            "effective_type": "type/Text",
+                            "field_ref": [
+                                "field",
+                                "TABLE_NAME",
+                                {
+                                    "base-type": "type/Text"
+                                }
+                            ],
+                            "semantic_type": null,
+                            "fingerprint": {
+                                "global": {
+                                    "distinct-count": 19,
+                                    "nil%": 0
+                                },
+                                "type": {
+                                    "type/Text": {
+                                        "percent-json": 0,
+                                        "percent-url": 0,
+                                        "percent-email": 0,
+                                        "percent-state": 0,
+                                        "average-length": 18.36842105263158
+                                    }
+                                }
+                            }
+                        }
+                    ],
+                    "database_id": 2,
+                    "enable_embedding": false,
+                    "collection_id": 1,
+                    "query_type": "native",
+                    "name": "list of tables",
+                    "query_average_duration": 521,
+                    "creator_id": 1,
+                    "moderation_reviews": [],
+                    "updated_at": "2022-10-13T14:47:12.775",
+                    "made_public_by_id": 1,
+                    "embedding_params": null,
+                    "cache_ttl": null,
+                    "dataset_query": {
+                        "type": "native",
+                        "native": {
+                            "query": "SELECT TABLE_NAME FROM USER_TABLES",
+                            "template-tags": {}
+                        },
+                        "database": 2
+                    },
+                    "id": 1,
+                    "display": "table",
+                    "visualization_settings": {
+                        "table.pivot_column": "TABLE_NAME"
+                    },
+                    "created_at": "2022-10-13T12:43:18.217",
+                    "public_uuid": "c4e0074f-f659-472a-ae02-57e16cb67caf"
+                },
+                "updated_at": "2022-10-13T14:47:15.9",
+                "col": 0,
+                "id": 1,
+                "parameter_mappings": [],
+                "card_id": 1,
+                "visualization_settings": {},
+                "dashboard_id": 1,
+                "created_at": "2022-10-13T14:47:15.786",
+                "sizeY": 4,
+                "row": 0
+            }
+        ],
+        "param_values": null,
+        "can_write": true,
+        "enable_embedding": false,
+        "collection_id": 1,
+        "show_in_getting_started": false,
+        "name": "testing-dashboard 22",
+        "caveats": null,
+        "collection_authority_level": null,
+        "creator_id": 1,
+        "updated_at": "2022-10-13T14:47:15.938",
+        "made_public_by_id": null,
+        "embedding_params": null,
+        "cache_ttl": null,
+        "id": 1,
+        "position": null,
+        "param_fields": null,
+        "last-edit-info": {
+            "id": 1,
+            "email": "hamzashaikh@credenceanalytics.com",
+            "first_name": "Hamza",
+            "last_name": "Shaikh",
+            "timestamp": "2022-10-13T14:47:15.943"
+        },
+        "parameters": [],
+        "created_at": "2022-10-13T14:46:50.924",
+        "public_uuid": null,
+        "points_of_interest": null
+    }
+}

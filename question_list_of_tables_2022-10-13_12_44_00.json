@@ -1,0 +1,102 @@
+{
+    "date": "2022-10-13",
+    "type": "Q",
+    "typename": "list of tables updated",
+    "data": {
+        "description": null,
+        "archived": false,
+        "collection_position": null,
+        "table_id": null,
+        "result_metadata": [
+            {
+                "name": "TABLE_NAME",
+                "display_name": "TABLE_NAME",
+                "base_type": "type/Text",
+                "effective_type": "type/Text",
+                "field_ref": [
+                    "field",
+                    "TABLE_NAME",
+                    {
+                        "base-type": "type/Text"
+                    }
+                ],
+                "semantic_type": null,
+                "fingerprint": {
+                    "global": {
+                        "distinct-count": 17,
+                        "nil%": 0
+                    },
+                    "type": {
+                        "type/Text": {
+                            "percent-json": 0,
+                            "percent-url": 0,
+                            "percent-email": 0,
+                            "percent-state": 0,
+                            "average-length": 19.764705882352942
+                        }
+                    }
+                }
+            }
+        ],
+        "creator": {
+            "email": "hamzashaikh@credenceanalytics.com",
+            "first_name": "Hamza",
+            "last_login": "2022-10-13T12:38:24.874",
+            "is_qbnewb": true,
+            "is_superuser": true,
+            "id": 1,
+            "last_name": "Shaikh",
+            "date_joined": "2022-10-13T11:17:22.699",
+            "common_name": "Hamza Shaikh"
+        },
+        "can_write": true,
+        "database_id": 2,
+        "enable_embedding": false,
+        "collection_id": 1,
+        "query_type": "native",
+        "name": "list of tables updated",
+        "last_query_start": null,
+        "dashboard_count": 0,
+        "average_query_time": null,
+        "creator_id": 1,
+        "moderation_reviews": [],
+        "updated_at": "2022-10-13T12:43:18.217",
+        "made_public_by_id": null,
+        "embedding_params": null,
+        "cache_ttl": null,
+        "dataset_query": {
+            "type": "native",
+            "native": {
+                "query": "SELECT TABLE_NAME FROM USER_TABLES",
+                "template-tags": {}
+            },
+            "database": 2
+        },
+        "id": 1,
+        "display": "table",
+        "last-edit-info": {
+            "id": 1,
+            "email": "hamzashaikh@credenceanalytics.com",
+            "first_name": "Hamza",
+            "last_name": "Shaikh",
+            "timestamp": "2022-10-13T12:43:18.256"
+        },
+        "visualization_settings": {
+            "table.pivot_column": "TABLE_NAME"
+        },
+        "collection": {
+            "authority_level": null,
+            "description": null,
+            "archived": false,
+            "slug": "hamza_shaikh_s_personal_collection",
+            "color": "#31698A",
+            "name": "Hamza Shaikh's Personal Collection",
+            "personal_owner_id": 1,
+            "id": 1,
+            "location": "/",
+            "namespace": null
+        },
+        "created_at": "2022-10-13T12:43:18.217",
+        "public_uuid": null
+    }
+}
