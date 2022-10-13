@@ -24,9 +24,9 @@ console.log(chalk.blueBright(`METABASE`));
 
 global.METABASE_PATH = path.resolve(__dirname, '../');
 const configFilePath = util.initCredConfig();
-global.metaConfig = null;
+global.credConfig = null;
 if (fs.existsSync(configFilePath)) {
-    global.metaConfig = JSON.parse(fs.readFileSync(configFilePath));
+    global.credConfig = JSON.parse(fs.readFileSync(configFilePath));
 }
 
 cmdObj.run().then(require('@oclif/command/flush')).catch(require('@oclif/errors/handle'));

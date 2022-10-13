@@ -1,5 +1,5 @@
 {
-    "name": "metabase",
+    "name": "metabase-cli",
     "version": "0.0.0",
     "description": "Credence Metabase CLI",
     "author": "vikasprabhu@credenceanalytics.com",
@@ -10,7 +10,7 @@
     "homepage": "https://github.com/Credence-Analytics/metabase-cli",
     "license": "MIT",
     "main": "src/index.js",
-    "repository": "fjorn-x/metabase",
+    "repository": "Credence-Analytics/metabase-cli",
     "files": [
         "/bin",
         "/src",
@@ -75,7 +75,7 @@
         "dir-compare": "^2.4.0"
     },
     "oclif": {
-        "bin": "metabase",
+        "bin": "metabase-cli",
         "commands": "./src/commands",
         "plugins": [
             "@oclif/plugin-help",

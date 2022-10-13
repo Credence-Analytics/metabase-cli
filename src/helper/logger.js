@@ -40,7 +40,7 @@ class CredError extends Error {
  */
 function initLogger(homeDir, command) {
     const dailyRotateFileTransport = new winston.transports.DailyRotateFile({
-        filename: `${homeDir}/.credcli/logs/${command}/%DATE%-result.log`,
+        filename: `${homeDir}/credence/logs/${command}/%DATE%-result.log`,
         datePattern: 'YYYY-MM-DD',
         maxSize: '10m',
         maxFiles: '3d',

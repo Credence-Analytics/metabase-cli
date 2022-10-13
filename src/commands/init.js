@@ -119,9 +119,9 @@ class InitCommand extends Command {
             // logger.info(`Writing ${JSON.stringify(metabaseConfig)} to the metabase config file`);
 
             configPath = util.initCredConfig();
+
             global.credConfig.metabase = { url, username, password };
             await fs.writeFileSync(configPath, JSON.stringify(global.credConfig, null, 2));
-
             logger.info(`Config file saved at ${configPath}`);
             this.console.log(`Config file saved at ${chalk.greenBright(configPath)}`);
         } catch (error) {
