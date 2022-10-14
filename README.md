@@ -1,109 +1,102 @@
-# oclif-hello-world
+# METABASE CLI
 
-oclif example Hello World CLI
+Command Line Interface for METABASE
 
-[![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io) [![Version](https://img.shields.io/npm/v/oclif-hello-world.svg)](https://npmjs.org/package/oclif-hello-world) [![Downloads/week](https://img.shields.io/npm/dw/oclif-hello-world.svg)](https://npmjs.org/package/oclif-hello-world) [![License](https://img.shields.io/npm/l/oclif-hello-world.svg)](https://github.com/oclif/hello-world/blob/main/package.json)
+# Prerequisites
 
-<!-- toc -->
+1. Node.js ([Download Link](https://nodejs.org/en/download/))
+    > Tried and tested on version 12.18.2
 
--   [Usage](#usage)
--   [Commands](#commands)
-<!-- tocstop -->
+# Installations
 
-# Usage
+-   clone this git repository
+-   go to the metabase directory
 
-<!-- usage -->
-
-```sh-session
-$ npm install -g metabase
-$ metabase COMMAND
-running command...
-$ metabase (--version)
-metabase/0.0.0 darwin-x64 node-v16.15.1
-$ metabase --help [COMMAND]
-USAGE
-  $ metabase COMMAND
-...
+```
+cd metabase
 ```
 
-<!-- usagestop -->
+-   run `npm link --force `
+
+-   once done run metabase from any directory and you should get an output like below :
+
+![metabase-initial](./assets/metabase-initial.png)
+
+<!-- ## Initialize Metabase Configurations
+
+     $ metabase init
+
+usagestop -->
 
 # Commands
 
 <!-- commands -->
 
--   [`metabase hello PERSON`](#metabase-hello-person)
--   [`metabase hello world`](#metabase-hello-world)
--   [`metabase help [COMMAND]`](#metabase-help-command)
--   [`metabase plugins`](#metabase-plugins)
--   [`metabase plugins:install PLUGIN...`](#metabase-pluginsinstall-plugin)
--   [`metabase plugins:inspect PLUGIN...`](#metabase-pluginsinspect-plugin)
--   [`metabase plugins:install PLUGIN...`](#metabase-pluginsinstall-plugin-1)
--   [`metabase plugins:link PLUGIN`](#metabase-pluginslink-plugin)
--   [`metabase plugins:uninstall PLUGIN...`](#metabase-pluginsuninstall-plugin)
--   [`metabase plugins:uninstall PLUGIN...`](#metabase-pluginsuninstall-plugin-1)
--   [`metabase plugins:uninstall PLUGIN...`](#metabase-pluginsuninstall-plugin-2)
--   [`metabase plugins update`](#metabase-plugins-update)
+> PREREQUISITE : You should have `Metabase` up and running either in your local machine or in remote server.
 
-## `metabase hello PERSON`
+## `metabase init`
 
-Say hello
+To Initialize metabase configurations
 
-```
-USAGE
-  $ metabase hello [PERSON] -f <value>
-
-ARGUMENTS
-  PERSON  Person to say hello to
-
-FLAGS
-  -f, --from=<value>  (required) Who is saying hello
-
-DESCRIPTION
-  Say hello
-
-EXAMPLES
-  $ oex hello friend --from oclif
-  hello friend from oclif! (./src/commands/hello/index.ts)
+```zsh
+  $ metabase init
 ```
 
-_See code: [dist/commands/hello/index.ts](https://github.com/fjorn-x/metabase/blob/v0.0.0/dist/commands/hello/index.ts)_
+![metabase-init](./assets/metabase-init.gif)
 
-## `metabase hello world`
+## `metabase export`
 
-Say hello world
+To export a question or dashboard from metabase
 
-```
-USAGE
-  $ metabase hello world
-
-DESCRIPTION
-  Say hello world
-
-EXAMPLES
-  $ metabase hello world
-  hello world! (./src/commands/hello/world.ts)
+```zsh
+  $ metabase export
 ```
 
-## `metabase help [COMMAND]`
+-   Dashboard
+    -   Show list of dashboards
+    -   Select one dashboard
+-   Question
+    -   Show list of questions
+    -   Select one question
 
-Display help for metabase.
+![metabase-export](./assets/metabase-export.gif)
 
+## `metabase import`
+
+To import a question or dashboard in metabase
+
+> PREREQUISITE : You should have exported file of question or dashboard in `json` format.
+
+> Make sure that the file you are importing has following properties in it.
+
+-   type property and it's value should be either Q or D.
+-   data.
+
+```zsh
+  $ metabase import
 ```
-USAGE
-  $ metabase help [COMMAND] [-n]
 
-ARGUMENTS
-  COMMAND  Command to show help for.
+-   Provide a valid path to the file you want to import, it must be in `json` format.
+-   Database Show list of connected databases to the metabase. Select appropriate database
 
-FLAGS
-  -n, --nested-commands  Include all nested commands in the output.
+![metabase-import](./assets/metabase-import.gif)
 
-DESCRIPTION
-  Display help for metabase.
+## `metabase delete`
+
+To delete a question or dashboard from metabase
+
+-   Dashboard
+    -   Show list of dashboards
+    -   Select one dashboard
+-   Question
+    -   Show list of questions
+    -   Select one question
+
+```zsh
+  $ metabase delete
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.1.14/src/commands/help.ts)_
+![metabase-delete](./assets/metabase-delete.gif)
 
 ## `metabase plugins`
 
