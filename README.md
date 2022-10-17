@@ -1,6 +1,7 @@
 # METABASE CLI
 
-Command Line Interface for METABASE
+Command Line Interface for export/import of dashboard/question  of one [Metabase](https://www.metabase.com/) server to another.
+The tools uses standard [Metabase API](https://www.metabase.com/docs/latest/api-documentation) to export the data 
 
 # Prerequisites
 
