@@ -14,7 +14,7 @@ const path = require('path');
 const Listr = require('listr');
 const { monitorCtrlC } = require('monitorctrlc');
 const os = require('os');
-const { error } = require('@oclif/core');
+const { error } = require('@oclif/errors');
 const chalk = require('chalk');
 
 const { initLogger, CredError } = require(path.join(__dirname, '../logger.js'));

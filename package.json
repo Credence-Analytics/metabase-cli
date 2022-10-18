@@ -1,6 +1,6 @@
 {
-    "name": "metabase-cli",
-    "version": "0.0.0",
+    "name": "@credenceanalytics/metabasecli",
+    "version": "1.0.0",
     "description": "Credence Metabase CLI",
     "author": "vikasprabhu@credenceanalytics.com",
     "type": "commonjs",
@@ -10,7 +10,7 @@
     "homepage": "https://github.com/Credence-Analytics/metabase-cli",
     "license": "MIT",
     "main": "src/index.js",
-    "repository": "Credence-Analytics/metabase-cli",
+    "repository": "https://github.com/Credence-Analytics/metabase-cli",
     "files": [
         "/bin",
         "/src",
@@ -43,7 +43,6 @@
         "monitorctrlc": "^2.0.1",
         "mustache": "^4.1.0",
         "node-fetch": "^2.6.1",
-        "oracledb": "^5.1.0",
         "pm2-promise": "^2.0.1",
         "simple-git": "^2.31.0",
         "update-notifier": "^5.0.1",
@@ -83,20 +82,17 @@
         ]
     },
     "scripts": {
-        "build": "shx rm -rf dist && tsc -b",
-        "lint": "eslint . --ext .ts --config .eslintrc",
-        "postpack": "shx rm -f oclif.manifest.json",
-        "posttest": "yarn lint",
-        "prepack": "yarn build && oclif manifest && oclif readme",
-        "test": "mocha --forbid-only test/commands/",
-        "version": "oclif readme && git add README.md"
+
     },
     "engines": {
         "node": ">=12.0.0"
     },
-    "bugs": "https://github.com/fjorn-x/metabase/issues",
+    "bugs": "https://github.com/Credence-Analytics/metabase-cli/issues",
     "keywords": [
-        "oclif"
+        "oclif",
+        "metabase",
+        "cli",
+        "tool"
     ],
     "types": "src/index.js",
     "husky": {
