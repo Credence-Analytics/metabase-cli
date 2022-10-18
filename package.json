@@ -1,6 +1,6 @@
 {
     "name": "metabase-cli",
-    "version": "0.0.0",
+    "version": "1.0.0",
     "description": "Credence Metabase CLI",
     "author": "vikasprabhu@credenceanalytics.com",
     "type": "commonjs",
