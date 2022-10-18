@@ -1,38 +1,50 @@
-/* eslint-disable node/no-unpublished-require */
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-undef */
+/* eslint-disable unicorn/no-useless-undefined */
+/* eslint-disable no-unused-vars */
 /* eslint-disable import/no-dynamic-require */
-
+/* eslint-disable no-useless-catch */
+/* eslint-disable one-var */
+/* eslint-disable prefer-const */
+/* eslint-disable import/newline-after-import */
+/* eslint-disable unicorn/prefer-module */
 const fs = require('fs-extra');
 const { expect } = require('chai');
 const path = require('path');
 const { deleteDashboardOrQuestion } = require(path.join(__dirname, '../../../src/helper/metabase/delete'));
 
-describe('metabase:delete', () => {
-    // It should be either D (Dashboard) or Q (Question)
-    let existingQuestionList = [{ id: 1, name: "First question", description: "This is first question" },
-    { id: 2, name: "Second question", description: "This is Second question" }],
-        existingDashboardList = [{ id: 1, name: "First dashboard", description: "This is first dashboard" },
-        { id: 2, name: "Second dashboard", description: "This is Second dashboard" }],
+describe('metabase delete', () => {
+    let existingQuestionList = [
+            { id: 1, name: 'First question', description: 'This is first question' },
+            { id: 2, name: 'Second question', description: 'This is Second question' },
+        ],
+        existingDashboardList = [
+            { id: 1, name: 'First dashboard', description: 'This is first dashboard' },
+            { id: 2, name: 'Second dashboard', description: 'This is Second dashboard' },
+        ],
         deletitionOption = `D`,
-        resultAfterDeletion, dashboardOrQuestionName, confirmDeletion = "N";
+        resultAfterDeletion,
+        dashboardOrQuestionName,
+        confirmDeletion = 'N';
 
     describe('Should delete dashboard/question', () => {
         it('Deleting dashboard/question', async () => {
             try {
-                listOfDashOrQue = deletitionOption === "Q" ? existingQuestionList : existingDashboardList;
+                listOfDashOrQue = deletitionOption === 'Q' ? existingQuestionList : existingDashboardList;
                 /* 
                 if deletionOption is D then enter any valid name from existingDashboardList
                 otherwise enter any valid name from the existingQuestionList array.
                 */
-                dashboardOrQuestionName = "First dashboard";
-                confirmDeletion = "Y"
-                resultAfterDeletion = await deleteDashboardOrQuestion(listOfDashOrQue, dashboardOrQuestionName, confirmDeletion)
-                if (confirmDeletion === "Y") {
-                    expect(resultAfterDeletion.length).to.be.lt(listOfDashOrQue.length)
-                    expect(resultAfterDeletion.find(x => x.name === dashboardOrQuestionName)).to.be.eq(undefined)
+                dashboardOrQuestionName = 'First dashboard';
+                confirmDeletion = 'Y';
+                resultAfterDeletion = await deleteDashboardOrQuestion(listOfDashOrQue, dashboardOrQuestionName, confirmDeletion);
+                if (confirmDeletion === 'Y') {
+                    expect(resultAfterDeletion.length).to.be.lt(listOfDashOrQue.length);
+                    expect(resultAfterDeletion.find((x) => x.name === dashboardOrQuestionName)).to.be.eq(undefined);
                     return;
                 }
-                expect(resultAfterDeletion.length).to.be.eq(listOfDashOrQue.length)
-                expect(resultAfterDeletion.find(x => x.name === dashboardOrQuestionName).name).to.be.eq(dashboardOrQuestionName)
+                expect(resultAfterDeletion.length).to.be.eq(listOfDashOrQue.length);
+                expect(resultAfterDeletion.find((x) => x.name === dashboardOrQuestionName).name).to.be.eq(dashboardOrQuestionName);
             } catch (error) {
                 throw error;
             }
@@ -41,12 +53,12 @@ describe('metabase:delete', () => {
         it('Deleting if the list of existing dashboard/question is empty', async () => {
             try {
                 listOfDashOrQue = [];
-                dashboardOrQuestionName = "First question";
-                confirmDeletion = "Y"
-                resultAfterDeletion = await deleteDashboardOrQuestion(listOfDashOrQue, dashboardOrQuestionName, confirmDeletion)
+                dashboardOrQuestionName = 'First question';
+                confirmDeletion = 'Y';
+                resultAfterDeletion = await deleteDashboardOrQuestion(listOfDashOrQue, dashboardOrQuestionName, confirmDeletion);
             } catch (error) {
-                expect(error.message).to.be.eq("There is no item available for delete")
+                expect(error.message).to.be.eq('There is no item available for delete');
             }
         });
-    })
+    });
 });
