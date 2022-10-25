@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 /* eslint-disable unicorn/no-for-loop */
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable no-use-before-define */
@@ -16,6 +15,7 @@ const chalk = require('chalk');
 const _ = require('lodash');
 const { cli } = require('cli-ux');
 const Table = require('cli-table3');
+const https = require('https');
 
 const { CredError, initLogger } = require(path.join(__dirname, './logger.js'));
 const logger = initLogger('commands');
@@ -61,7 +61,7 @@ async function sendRequest(route, options, method = 'POST', APIURL, label = '') 
         }
 
         if (APIURL && new URL(APIURL).protocol === 'https:') {
-            options.httpsAgent = new https.Agent({
+            options.agent = new https.Agent({
                 rejectUnauthorized: false,
             });
         }
