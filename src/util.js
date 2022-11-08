@@ -5,49 +5,61 @@
 
 const path = require('path');
 const fs = require('fs');
+const os = require('os');
+const Listr = require('listr');
+const { monitorCtrlC } = require('monitorctrlc');
+const { error } = require('@oclif/errors');
+const chalk = require('chalk');
 
-let addMacroConfiguration = async (options) => {
-    let configfiledata = '';
-    let macrodata;
-
-    configfiledata = fs.readFileSync(options.configfile, { encoding: 'utf8', flag: 'r' });
-    configfiledata = JSON.parse(configfiledata);
-
-    macrodata = configfiledata.macros.filter(function (m) {
-        return m.name == options.macro;
-    });
-    if (macrodata.length > 0) {
-        return `macro ${options.macro} already exists`;
+/**
+ * Main catch block of the commands
+ *
+ * @param {error} err error object
+ * @param {string} command Command which generated that error
+ * @param {string} processType standard/docker
+ */
+ function errorHandler(err, processType = 'standard') {
+    // Set log location based on the command
+    let logLocation;
+    logLocation = chalk.greenBright(path.resolve(`${os.homedir()}/.metabasecli/logs/%DATE%-result.log`));
+    if (err.constructor.name === 'CredError') {
+        if (processType !== 'docker') {
+            if (Object.keys(err.options).includes('suggestions')) {
+                err.options.suggestions.push(`For more information, check logs at ${logLocation}`);
+            } else {
+                err.options = { suggestions: [`For more information, check logs at ${logLocation}`] };
+            }
+        }
+        error(err.message, err.options);
+    } else {
+        this.console.error(err.message ? err.message : err);
+        if (processType !== 'docker') {
+            this.console.error(`For more information, check logs at ${logLocation}`);
+        }
     }
-    configfiledata.macros.push({ name: options.name, route: options.route, label: options.label, app: options.app, jsfile: path.join('/macros/', options.macro, options.macro + '.js') });
-    // overwrite the macro config json with new configs
-    fs.writeFileSync(options.configfile, JSON.stringify(configfiledata), { encoding: 'utf8', flag: 'w' });
+}
 
-    // create the macro folder
-    fs.mkdirSync(path.join(options.folder, options.macro));
-    // create the macro file
-    fs.writeFileSync(
-        path.join(options.folder, options.macro, options.macro + '.js'),
-        `(function(m) {
-          function dosomething() {
-              /*...write your code here */ 
-          } 
-          m.register('${options.macro}',  dosomething) 
-        })(_macro)
-    `,
-        { encoding: 'utf8', flag: 'w' }
-    );
-    return `Macro ${options.macro} created successfully.`;
+/**
+ * It prevents user to interrupt listr process.
+ *
+ * @param {ListrContext} context - Context object passed inside run method.
+ * @returns output of run() function
+ */
+ Listr.prototype.runWithoutInterrupt = function (context) {
+    const monitor = monitorCtrlC();
+    return this.run(context).finally(() => {
+        monitor.dispose();
+    });
 };
 
 const initCredConfig = () => {
-    if (!fs.existsSync(path.join(global.METABASE_PATH, 'metacli_cfg.json'))) {
+    if (!fs.existsSync(path.join(global.METABASE_PATH, 'metabasecli_cfg.json'))) {
         const config = {
             metabase: {},
         };
-        fs.writeFileSync(path.join(global.METABASE_PATH, 'metacli_cfg.json'), JSON.stringify(config, null, 2));
+        fs.writeFileSync(path.join(global.METABASE_PATH, 'metabasecli_cfg.json'), JSON.stringify(config, null, 2));
     }
-    return path.join(global.METABASE_PATH, 'metacli_cfg.json');
+    return path.join(global.METABASE_PATH, 'metabasecli_cfg.json');
 };
 
-module.exports = { addMacroConfiguration, initCredConfig };
+module.exports = { initCredConfig, errorHandler, Listr, };

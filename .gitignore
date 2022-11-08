@@ -19,4 +19,4 @@ coverage
 .DS_Store
 src/.DS_Store
 src/commands/.DS_Store
-src/commands/patch/.DS_Store
+metabasecli_cfg.json

@@ -18,10 +18,10 @@ const https = require('https');
 const { cli } = require('cli-ux');
 const _ = require('lodash')
 
-const { errorHandler } = require(path.join(__dirname, '../helper/patch/utils.js'));
+const util = require(path.join(__dirname, '../util.js'));
 const { setConsoleLog, initLogger, CredError } = require(path.join(__dirname, '../helper/logger.js'));
 
-const logger = initLogger('metabase');
+const logger = initLogger();
 const { sendRequest, validateCredConfig, getMetabaseSessionID } = require(path.join(__dirname, '../helper/api-utils.js'));
 setConsoleLog(Command);
 
@@ -211,11 +211,13 @@ async function prepareDashCardsUpdatePayload({ impDashQueList, sessionID, dashbo
             'X-Metabase-Session': sessionID,
             'Content-Type': 'application/json'
         },
-        method: "GET",
-        agent: new https.Agent({
-            rejectUnauthorized: false
-        })
+        method: "GET"
     };
+    if (APIURL && new URL(APIURL).protocol === 'https:') {
+        options.agent = new https.Agent({
+            rejectUnauthorized: false,
+        });
+    }
     const apiResponse = await fetch(APIURL, options);
     const jsonResponse = await apiResponse.json();
 
@@ -378,7 +380,7 @@ class ImportCommand extends Command {
             if (!fs.existsSync(directory.jsonFilePath) || path.extname(directory.jsonFilePath) !== '.json') {
                 logger.info(`Provided json file path: ${directory.jsonFilePath} `);
                 throw new CredError('Provided a valid path to the json file.', {
-                    suggestions: [`Run command ${chalk.yellowBright(`credcli metabase:import`)} `],
+                    suggestions: [`Run command ${chalk.yellowBright(`metabase import`)} `],
                 });
             }
 
@@ -422,7 +424,7 @@ class ImportCommand extends Command {
             logger.info(`Import successful`);
             this.console.log(`Import successful`);
         } catch (error) {
-            errorHandler(error, 'metabase');
+            util.errorHandler(error);
         }
     }
 }

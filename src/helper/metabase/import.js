@@ -16,7 +16,7 @@
 const path = require('path');
 
 const { initLogger, CredError } = require(path.join(__dirname, '../logger.js'));
-const logger = initLogger('metabase');
+const logger = initLogger();
 
 function checkExistance(existingQueOrDashList, impdata) {
     try {

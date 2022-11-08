@@ -14,43 +14,70 @@ const { exportDashboard, exportQuestion } = require(path.join(__dirname, '../../
 
 describe('metabase export', () => {
     let exportedFileName,
-        directoryToExport = path.resolve(os.homedir(), 'credence/metabase-cli');
+        directoryToExport = path.resolve('F:/credence/microservices');
 
     const dashboardList = [
         {
-            description: null,
-            archived: false,
-            collection_position: null,
-            ordered_cards: [],
-            param_values: null,
-            can_write: true,
-            enable_embedding: false,
-            collection_id: 1,
-            show_in_getting_started: false,
-            name: 'testing-dashboard',
-            caveats: null,
-            collection_authority_level: null,
-            creator_id: 1,
-            updated_at: '2022-10-25T15:17:05.579',
-            made_public_by_id: null,
-            embedding_params: null,
-            cache_ttl: null,
-            id: 1,
-
-            position: null,
-            param_fields: null,
-            'last-edit-info': {
-                id: 1,
-                email: 'hamzashaikh@crdenceanalytics.com',
-                first_name: 'Hamza',
-                last_name: 'Shaikh',
-                timestamp: '2022-10-25T15:17:05.582',
+            "description": null,
+            "archived": false,
+            "collection_position": null,
+            "ordered_cards": [
+              {
+                "sizeX": 4,
+                "series": [],
+                "collection_authority_level": null,
+                "card": {
+                  "query_average_duration": null
+                },
+                "updated_at": "2022-11-02T14:28:21.701",
+                "col": 0,
+                "id": 1,
+                "parameter_mappings": [],
+                "card_id": null,
+                "visualization_settings": {
+                  "virtual_card": {
+                    "name": null,
+                    "display": "text",
+                    "visualization_settings": {},
+                    "dataset_query": {},
+                    "archived": false
+                  },
+                  "text": "Testing Text!"
+                },
+                "dashboard_id": 1,
+                "created_at": "2022-11-02T14:27:55.773",
+                "sizeY": 1,
+                "row": 0
+              }
+            ],
+            "param_values": null,
+            "can_write": true,
+            "enable_embedding": false,
+            "collection_id": 2,
+            "show_in_getting_started": false,
+            "name": "Testing Dashboard",
+            "caveats": null,
+            "collection_authority_level": null,
+            "creator_id": 1,
+            "updated_at": "2022-11-02T14:28:21.748",
+            "made_public_by_id": null,
+            "embedding_params": null,
+            "cache_ttl": null,
+            "id": 1,
+            "position": null,
+            "param_fields": null,
+            "last-edit-info": {
+              "id": 1,
+              "email": "shubhamyadav@credenceanalytics.com",
+              "first_name": "Shubham",
+              "last_name": "yadav",
+              "timestamp": "2022-11-02T14:28:21.76"
             },
-            parameters: [],
-            created_at: '2022-10-13T14:46:50.924',
-            public_uuid: null,
-            points_of_interest: null,
-        },
+            "parameters": [],
+            "created_at": "2022-11-02T14:26:35.662",
+            "public_uuid": null,
+            "points_of_interest": null
+          }
     ];
 
     const questionList = [{ id: 1, name: 'testing-question', description: null }];

@@ -13,18 +13,21 @@ All types of contributions are encouraged and valued. See the [Table of Contents
 
 ## Table of Contents
 
--   [Contributing to Metabase CLI](#contributing-to-metabase-cli)
-    -   [Table of Contents](#table-of-contents)
-    -   [Code of Conduct](#code-of-conduct)
-    -   [I Have a Question](#i-have-a-question)
-    -   [I Want To Contribute](#i-want-to-contribute)
-        -   [Reporting Bugs](#reporting-bugs)
-            -   [Before Submitting a Bug Report](#before-submitting-a-bug-report)
-            -   [How Do I Submit a Good Bug Report?](#how-do-i-submit-a-good-bug-report)
-        -   [Suggesting Enhancements](#suggesting-enhancements)
-            -   [Before Submitting an Enhancement](#before-submitting-an-enhancement)
-            -   [How Do I Submit a Good Enhancement Suggestion?](#how-do-i-submit-a-good-enhancement-suggestion)
-    -   [Join The Project Team](#join-the-project-team)
+- [Contributing to Metabase CLI](#contributing-to-metabase-cli)
+  - [Table of Contents](#table-of-contents)
+  - [Code of Conduct](#code-of-conduct)
+  - [I Have a Question](#i-have-a-question)
+  - [I Want To Contribute](#i-want-to-contribute)
+    - [Reporting Bugs](#reporting-bugs)
+      - [Before Submitting a Bug Report](#before-submitting-a-bug-report)
+      - [How Do I Submit a Good Bug Report?](#how-do-i-submit-a-good-bug-report)
+    - [Suggesting Enhancements](#suggesting-enhancements)
+      - [Before Submitting an Enhancement](#before-submitting-an-enhancement)
+      - [How Do I Submit a Good Enhancement Suggestion?](#how-do-i-submit-a-good-enhancement-suggestion)
+  - [Getting Started](#getting-started)
+    - [Fork The Repository](#fork-the-repository)
+    - [Create a Pull Request](#create-a-pull-request)
+  - [Join The Project Team](#join-the-project-team)
 
 ## Code of Conduct
 
@@ -120,14 +123,14 @@ Enhancement suggestions are tracked as [GitHub issues](https://github.com/Creden
 
 ## Getting Started
 
-### Fork The repository
+### Fork The Repository
 
 -   First fork our repository into your own Github account, and create a local clone of it as described in the installation instructions.
 -   The latter will be used to get new features implemented or bugs fixed.
 -   Once done and you have the code locally on the disk, you can get started.
 -   We advice to not work directly on the master branch, but to create a separate branch for each issue you are working on. That way you can easily switch between different work, and you can update each one for latest changes on upstream master individually.
 
-### Create a pull request
+### Create a Pull Request
 
 -   When you think the code is ready for review a pull request should be created on Github.
 -   Owners of the repository will watch out for new PR‘s and review them in regular intervals. By default for each change in the PR we run all the tests. If tests are failing make sure to address the failures immediately.

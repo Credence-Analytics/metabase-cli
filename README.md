@@ -73,6 +73,8 @@
   
   ![metabase-import](./assets/metabase-import.gif)
 
+  ***Note*** : Simple textbox question exported in dashboard, will not be imported.
+
 ## `metabase delete`
 
 - To delete a question or dashboard from metabase

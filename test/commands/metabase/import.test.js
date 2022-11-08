@@ -24,160 +24,142 @@ describe('metabase import', () => {
         queExistance = false,
         dashExistance = false,
         dashImpdata,
-        queImpFilePath = path.resolve('question_testing-question_2022-10-25_17_14_37.json'),
-        dashImpFilePath = path.resolve('dashboard_bsjd_2022-10-25_17_18_31.json');
+        queImpFilePath = path.resolve('F:/credence/microservices/question_people_test_2022-11-08_23_10_41.json'),
+        dashImpFilePath = path.resolve('F:/credence/microservices/dashboard_with_textbox.json');
 
     const allMetabaseQuestionList = [
         {
-            description: null,
-            archived: false,
-            collection_position: null,
-            table_id: null,
-            result_metadata: [
-                {
-                    name: 'ID',
-                    display_name: 'ID',
-                    base_type: 'type/BigInteger',
-                    effective_type: 'type/BigInteger',
-                    field_ref: [
-                        'field',
-                        'ID',
-                        {
-                            'base-type': 'type/BigInteger',
-                        },
-                    ],
-                    semantic_type: 'type/PK',
-                    fingerprint: null,
-                },
-                {
-                    name: 'TOTAL',
-                    display_name: 'TOTAL',
-                    base_type: 'type/Float',
-                    effective_type: 'type/Float',
-                    field_ref: [
-                        'field',
-                        'TOTAL',
-                        {
-                            'base-type': 'type/Float',
-                        },
-                    ],
-                    semantic_type: null,
-                    fingerprint: {
-                        global: {
-                            'distinct-count': 1494,
-                            'nil%': 0,
-                        },
-                        type: {
-                            'type/Number': {
-                                min: 13.703915846433869,
-                                q1: 52.16498672761125,
-                                q3: 110.74896236179433,
-                                max: 159.34900526552292,
-                                sd: 34.41222590732287,
-                                avg: 81.33739624585914,
-                            },
-                        },
-                    },
-                },
-            ],
-            creator: {
-                email: 'hamzashaikh@credenceanalytics.com',
-                first_name: 'Hamza',
-                last_login: '2022-10-25T15:31:34.327',
-                is_qbnewb: false,
-                is_superuser: true,
-                id: 1,
-                last_name: 'Shaikh',
-                date_joined: '2022-10-13T11:17:22.699',
-                common_name: 'Hamza Shaikh',
+            "description": null,
+            "archived": false,
+            "collection_position": null,
+            "table_id": 3,
+            "result_metadata": null,
+            "creator": {
+              "email": "shubhamyadav@credenceanalytics.com",
+              "first_name": "Shubham",
+              "last_login": "2022-11-08T23:10:39.355",
+              "is_qbnewb": false,
+              "is_superuser": true,
+              "id": 1,
+              "last_name": "yadav",
+              "date_joined": "2022-10-31T17:03:58.969",
+              "common_name": "Shubham yadav"
             },
-            can_write: true,
-            database_id: 1,
-            enable_embedding: false,
-            collection_id: 1,
-            query_type: 'native',
-            name: 'testing-question',
-            last_query_start: '2022-10-25T15:13:27.648847+05:30',
-            dashboard_count: 0,
-            average_query_time: 734,
-            creator_id: 1,
-            moderation_reviews: [],
-            updated_at: '2022-10-25T15:13:23.679',
-            made_public_by_id: null,
-            embedding_params: null,
-            cache_ttl: null,
-            dataset_query: {
-                database: 1,
-                native: {
-                    query: 'select id,total from Orders;\n',
-                    'template-tags': {},
-                },
-                type: 'native',
+            "can_write": true,
+            "database_id": 2,
+            "enable_embedding": false,
+            "collection_id": 2,
+            "query_type": "query",
+            "name": "People test",
+            "last_query_start": null,
+            "dashboard_count": 0,
+            "average_query_time": null,
+            "creator_id": 1,
+            "moderation_reviews": [],
+            "updated_at": "2022-11-08T23:10:13.623",
+            "made_public_by_id": 1,
+            "embedding_params": null,
+            "cache_ttl": null,
+            "dataset_query": {
+              "database": 2,
+              "query": {
+                "source-table": 3,
+                "limit": 50
+              },
+              "type": "query"
             },
-            id: 8,
-            display: 'table',
-            'last-edit-info': {
-                id: 1,
-                email: 'hamzashaikh@credenceanalytics.com',
-                first_name: 'Hamza',
-                last_name: 'Shaikh',
-                timestamp: '2022-10-25T15:09:08.062',
+            "id": 5,
+            "display": "table",
+            "last-edit-info": {
+              "id": 1,
+              "email": "shubhamyadav@credenceanalytics.com",
+              "first_name": "Shubham",
+              "last_name": "yadav",
+              "timestamp": "2022-11-08T23:10:13.599"
             },
-            visualization_settings: {
-                'table.pivot_column': 'QUANTITY',
-                'table.cell_column': 'ID',
+            "visualization_settings": {
+              "table.pivot_column": "SOURCE",
+              "table.cell_column": "LONGITUDE"
             },
-            collection: {
-                authority_level: null,
-                description: null,
-                archived: false,
-                slug: 'hamza_shaikh_s_personal_collection',
-                color: '#31698A',
-                name: "Hamza Shaikh's Personal Collection",
-                personal_owner_id: 1,
-                id: 1,
-                location: '/',
-                namespace: null,
+            "collection": {
+              "authority_level": null,
+              "description": null,
+              "archived": false,
+              "slug": "testing_collection",
+              "color": "#509EE3",
+              "name": "Testing collection",
+              "personal_owner_id": null,
+              "id": 2,
+              "location": "/",
+              "namespace": null
             },
-            created_at: '2022-10-25T15:09:08.056',
-            public_uuid: null,
-        },
+            "created_at": "2022-11-08T23:10:13.579",
+            "public_uuid": "68be14f9-b0f1-400c-b89a-3f917e38bd0c"
+          }
     ];
 
     const allMetabaseDashboardList = [
         {
-            description: null,
-            archived: false,
-            collection_position: null,
-            ordered_cards: [],
-            param_values: null,
-            can_write: true,
-            enable_embedding: false,
-            collection_id: 1,
-            show_in_getting_started: false,
-            name: 'testing-dashboard',
-            caveats: null,
-            collection_authority_level: null,
-            creator_id: 1,
-            updated_at: '2022-10-25T15:17:05.579',
-            made_public_by_id: null,
-            embedding_params: null,
-            cache_ttl: null,
-            id: 1,
-            position: null,
-            param_fields: null,
-            'last-edit-info': {
-                id: 1,
-                email: 'hamzashaikh@credenceanalytics.com',
-                first_name: 'Hamza',
-                last_name: 'Shaikh',
-                timestamp: '2022-10-25T15:17:05.582',
+            "description": null,
+            "archived": false,
+            "collection_position": null,
+            "ordered_cards": [
+              {
+                "sizeX": 4,
+                "series": [],
+                "collection_authority_level": null,
+                "card": {
+                  "query_average_duration": null
+                },
+                "updated_at": "2022-11-02T14:28:21.701",
+                "col": 0,
+                "id": 1,
+                "parameter_mappings": [],
+                "card_id": null,
+                "visualization_settings": {
+                  "virtual_card": {
+                    "name": null,
+                    "display": "text",
+                    "visualization_settings": {},
+                    "dataset_query": {},
+                    "archived": false
+                  },
+                  "text": "Testing Text!"
+                },
+                "dashboard_id": 1,
+                "created_at": "2022-11-02T14:27:55.773",
+                "sizeY": 1,
+                "row": 0
+              }
+            ],
+            "param_values": null,
+            "can_write": true,
+            "enable_embedding": false,
+            "collection_id": 2,
+            "show_in_getting_started": false,
+            "name": "Testing Dashboard",
+            "caveats": null,
+            "collection_authority_level": null,
+            "creator_id": 1,
+            "updated_at": "2022-11-02T14:28:21.748",
+            "made_public_by_id": null,
+            "embedding_params": null,
+            "cache_ttl": null,
+            "id": 1,
+            "position": null,
+            "param_fields": null,
+            "last-edit-info": {
+              "id": 1,
+              "email": "shubhamyadav@credenceanalytics.com",
+              "first_name": "Shubham",
+              "last_name": "yadav",
+              "timestamp": "2022-11-02T14:28:21.76"
             },
-            parameters: [],
-            created_at: '2022-10-13T14:46:50.924',
-            public_uuid: null,
-            points_of_interest: null,
-        },
+            "parameters": [],
+            "created_at": "2022-11-02T14:26:35.662",
+            "public_uuid": null,
+            "points_of_interest": null
+          }
     ];
 
     before(async () => {

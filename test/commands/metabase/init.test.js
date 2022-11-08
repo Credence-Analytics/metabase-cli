@@ -7,15 +7,13 @@ const fs = require('fs-extra');
 const { expect } = require('chai');
 const path = require('path');
 // const os = require('os');
-
-// const { validatePath, checkWritePermission } = require(path.join(__dirname, '../../../src/helper/patch/utils.js'));
 const { initializeMetabase } = require(path.join(__dirname, '../../../src/helper/metabase/init'));
 
 describe('metabase init', () => {
-    let configFileName = 'metacli_cfg.json';
+    let configFileName = 'metabasecli_cfg.json';
     const config = {
-        url: 'http://localhost:3100',
-        username: 'hamzashaikh@credenceanalytics.com',
+        url: 'http://127.0.0.1:3100',
+        username: 'shubhamyadav@credenceanalytics.com',
         password: 'credence1',
     };
     describe('Should initialize the metabase', () => {
@@ -24,7 +22,7 @@ describe('metabase init', () => {
                 await initializeMetabase(config.url, config.username, config.password);
                 // const configFile = await fs.readFile(path.resolve(os.homedir(), 'credence/metabase', configFileName));
                 const configFile = await fs.readFile(path.resolve(__dirname, '../../..', configFileName));
-                expect(JSON.parse(configFile).metabase.username).to.be.eq('hamzashaikh@credenceanalytics.com');
+                expect(JSON.parse(configFile).metabase.username).to.be.eq('shubhamyadav@credenceanalytics.com');
             } catch (error) {
                 throw new Error('Error while validating metabase details');
             }
@@ -32,7 +30,6 @@ describe('metabase init', () => {
     });
 
     after(async () => {
-        // await fs.remove(path.resolve(os.homedir(), '.credcli', configFileName));
         await fs.remove(path.resolve('../../../', configFileName));
     });
 });
