@@ -34,13 +34,10 @@ class CredError extends Error {
 
 /**
  * Initialize the logger
- *
- * @param {string} homeDir User's home directory
- * @param {string} command what command is tring to log (patch or macro)
  */
-function initLogger(homeDir, command) {
+function initLogger() {
     const dailyRotateFileTransport = new winston.transports.DailyRotateFile({
-        filename: `${homeDir}/credence/logs/${command}/%DATE%-result.log`,
+        filename: `${os.homedir()}/.metabasecli/logs/%DATE%-result.log`,
         datePattern: 'YYYY-MM-DD',
         maxSize: '10m',
         maxFiles: '3d',
@@ -81,7 +78,7 @@ function setConsoleLog(obj) {
 }
 
 module.exports = {
-    initLogger: initLogger.bind(this, os.homedir()),
+    initLogger,
     setConsoleLog,
-    CredError,
+    CredError
 };

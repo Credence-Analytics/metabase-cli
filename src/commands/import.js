@@ -14,12 +14,14 @@ const { prompt } = require('enquirer');
 const fs = require('fs-extra');
 const chalk = require('chalk');
 const fetch = require('node-fetch');
+const https = require('https');
 const { cli } = require('cli-ux');
+const _ = require('lodash')
 
-const { errorHandler } = require(path.join(__dirname, '../helper/patch/utils.js'));
+const util = require(path.join(__dirname, '../util.js'));
 const { setConsoleLog, initLogger, CredError } = require(path.join(__dirname, '../helper/logger.js'));
 
-const logger = initLogger('metabase');
+const logger = initLogger();
 const { sendRequest, validateCredConfig, getMetabaseSessionID } = require(path.join(__dirname, '../helper/api-utils.js'));
 setConsoleLog(Command);
 
@@ -47,13 +49,13 @@ async function CollectDBInfo({ sessionID }) {
         let APIURL = `${global.credConfig.metabase.url}/api/database`,
             options = {
                 headers: {
-                    'X-Metabase-Session': sessionID,
-                },
+                    'X-Metabase-Session': sessionID
+                }
             },
             connectionInfo;
 
         logger.info('Fetching all the connections from the metabase');
-        const { data: connectionList } = await sendRequest(null, options, 'GET', APIURL, 'to get all the databases');
+        const { data: connectionList } = await sendRequest(null, options, 'GET', APIURL, "to get all the databases");
         logger.info(`Successfully fetched all the connected database connections`);
 
         const selectedConnection = await prompt([
@@ -65,12 +67,12 @@ async function CollectDBInfo({ sessionID }) {
                     const { id } = connectionList.find(({ name }) => name === connectionName);
                     return id;
                 },
-                choices: connectionList.map(({ name }) => name),
-            },
+                choices: connectionList.reduce((a, db) => (!db.is_sample && a.push(db.name), a), [])
+            }
         ]);
 
         APIURL = `${global.credConfig.metabase.url}/api/database/${selectedConnection.id}`;
-        connectionInfo = await sendRequest(null, options, 'GET', APIURL, 'to collect detailed information of selected database');
+        connectionInfo = await sendRequest(null, options, 'GET', APIURL, "to collect detailed information of selected database");
         logger.info(`Selected Database connection info ${JSON.stringify(connectionInfo)}`);
         return connectionInfo;
     } catch (error) {
@@ -84,17 +86,36 @@ async function tagQuestion({ dashboardID, questionID: cardId, sessionID, selecte
     try {
         let APIURL = `${global.credConfig.metabase.url}/api/dashboard/${dashboardID}/cards`,
             payload = {
-                cardId,
+                cardId
             },
             options;
 
         options = {
             headers: {
-                'X-Metabase-Session': sessionID,
+                'X-Metabase-Session': sessionID
             },
-            body: JSON.stringify(payload),
+            body: JSON.stringify(payload)
         };
         await sendRequest(null, options, 'POST', APIURL, `to tag question : ${selectedQueName.length > 25 ? `${selectedQueName.slice(0, 25)}...   ` : selectedQueName}`);
+    } catch (error) {
+        error.name = 'Metabase API call failed';
+        logger.error(`${error.stack ? error.stack : error}`);
+        throw new Error(`Failed to tag question`);
+    }
+}
+
+async function tagQuestionWithTextBox({ dashboardID, data, sessionID }) {
+    try {
+        let APIURL = `${global.credConfig.metabase.url}/api/dashboard/${dashboardID}/cards`,
+            options;
+
+        options = {
+            headers: {
+                'X-Metabase-Session': sessionID
+            },
+            body: JSON.stringify(data)
+        };
+        await sendRequest(null, options, 'POST', APIURL, `Creating a Textbox Question: ${data.visualization_settings.text}`);
     } catch (error) {
         error.name = 'Metabase API call failed';
         logger.error(`${error.stack ? error.stack : error}`);
@@ -107,8 +128,8 @@ async function publish({ type: flag, dashOrQueId: id, sessionID, name }) {
         let APIURL = flag === 'Q' ? `${global.credConfig.metabase.url}/api/card/${id}/public_link` : `${global.credConfig.metabase.url}/api/dashboard/${id}/public_link`,
             options = {
                 headers: {
-                    'X-Metabase-Session': sessionID,
-                },
+                    'X-Metabase-Session': sessionID
+                }
             };
         await sendRequest(null, options, 'POST', APIURL, `to publish ${flag === 'Q' ? 'question' : 'dashboard'} : ${name.length > 25 ? `${name.slice(0, 25)}...   ` : name}`);
     } catch (error) {
@@ -127,14 +148,14 @@ async function importQuestion({ impdata, sessionID, tagging = false, dashboardID
             questionID;
         const {
             data: { name: selectedQueName, public_uuid },
-            type,
+            type
         } = impdata;
 
         logger.info(`Checking existance of the question : ${selectedQueName}`);
         questionExistance = await checkExistance({
             type,
             dashOrQueName: selectedQueName,
-            sessionID,
+            sessionID
         });
 
         if (questionExistance) {
@@ -144,9 +165,9 @@ async function importQuestion({ impdata, sessionID, tagging = false, dashboardID
             APIURL = `${global.credConfig.metabase.url}/api/card/${questionID}`;
             options = {
                 headers: {
-                    'X-Metabase-Session': sessionID,
+                    'X-Metabase-Session': sessionID
                 },
-                body: JSON.stringify(impdata.data),
+                body: JSON.stringify(impdata.data)
             };
 
             await sendRequest(null, options, 'PUT', APIURL, `to update question : ${selectedQueName.length > 25 ? `${selectedQueName.slice(0, 25)}...   ` : selectedQueName}`);
@@ -157,15 +178,18 @@ async function importQuestion({ impdata, sessionID, tagging = false, dashboardID
             APIURL = `${global.credConfig.metabase.url}/api/card`;
             options = {
                 headers: {
-                    'X-Metabase-Session': sessionID,
+                    'X-Metabase-Session': sessionID
                 },
-                body: JSON.stringify(impdata.data),
+                body: JSON.stringify(impdata.data)
             };
 
             createdQuestion = await sendRequest(null, options, 'POST', APIURL, `to create question : ${selectedQueName.length > 25 ? `${selectedQueName.slice(0, 25)}...   ` : selectedQueName}`);
             questionID = createdQuestion.id;
             logger.info(`Question ${selectedQueName} created successfully`);
         }
+
+        // update the size of the question
+
 
         if (tagging) {
             // tagging the question to the dashboard
@@ -174,7 +198,7 @@ async function importQuestion({ impdata, sessionID, tagging = false, dashboardID
                 dashboardID,
                 questionID,
                 sessionID,
-                selectedQueName,
+                selectedQueName
             });
             logger.info(`Question ${selectedQueName} tagged successfully`);
         }
@@ -186,7 +210,7 @@ async function importQuestion({ impdata, sessionID, tagging = false, dashboardID
                 type,
                 dashOrQueId: questionID,
                 sessionID,
-                name: selectedQueName,
+                name: selectedQueName
             });
             logger.info(`Question ${selectedQueName} published successfully`);
         }
@@ -198,24 +222,63 @@ async function importQuestion({ impdata, sessionID, tagging = false, dashboardID
     }
 }
 
+async function prepareDashCardsUpdatePayload({ impDashQueList, sessionID, dashboardID }) {
+    let APIURL = `${global.credConfig.metabase.url}/api/dashboard/${dashboardID}`, options, updatedCardList = [], paramsFromRemoteDashQue, paramsFromImpDashQue;
+
+    options = {
+        headers: {
+            'X-Metabase-Session': sessionID,
+            'Content-Type': 'application/json'
+        },
+        method: "GET"
+    };
+    if (APIURL && new URL(APIURL).protocol === 'https:') {
+        options.agent = new https.Agent({
+            rejectUnauthorized: false,
+        });
+    }
+    const apiResponse = await fetch(APIURL, options);
+    const jsonResponse = await apiResponse.json();
+
+    jsonResponse["ordered_cards"]?.forEach(question => {
+        let impDashQueDetails = impDashQueList.find(x => x["name"] === question["card"]["name"])
+        if (impDashQueDetails) {
+            paramsFromRemoteDashQue = _.pick(question, ["id", "card_id"])
+            paramsFromImpDashQue = _.pick(impDashQueDetails,
+                [
+                    "sizeX",
+                    "series",
+                    "collection_authority_level",
+                    "col",
+                    "parameter_mappings",
+                    "visualization_settings",
+                    "sizeY",
+                    "row"
+                ])
+            updatedCardList = [...updatedCardList, { ...paramsFromImpDashQue, ...paramsFromRemoteDashQue }]
+        }
+    });
+    return updatedCardList;
+}
+
 async function importDashboard({ impdata, sessionID }) {
     try {
         let dashboardExistance, APIURL, payload, options, createParams, newDashboard, dashboardID;
         const {
             data: { name: selectedDashName, ordered_cards: questionsInImpdata },
-            type,
+            type
         } = impdata;
 
         logger.info(`Checking existance of the dashboard : ${selectedDashName}`);
         dashboardExistance = await checkExistance({
             type,
             dashOrQueName: selectedDashName,
-            sessionID,
+            sessionID
         });
 
         options = {
             headers: {
-                'X-Metabase-Session': sessionID,
+                'X-Metabase-Session': sessionID
             },
         };
         // Deleting existing dashboard
@@ -255,19 +318,33 @@ async function importDashboard({ impdata, sessionID }) {
         logger.info(`Dashboard : ${selectedDashName} created successfully`);
         // importing all the questions
         logger.info(`Importing all the question dashboard : ${selectedDashName}`);
-        await Promise.all(
-            questionsInImpdata.map(async (questionData) =>
-                importQuestion({
-                    impdata: { data: questionData.card, type: 'Q' },
-                    sessionID,
-                    tagging: true,
-                    dashboardID,
-                })
-            )
-        ).catch((error) => {
+        await Promise.all(questionsInImpdata.map(async questionData => {
+            if (Object.keys(questionData.card).length > 1) {
+                importQuestion({ impdata: { data: questionData.card, type: 'Q' }, sessionID, tagging: true, dashboardID })
+            } else if (Object.keys(questionData.card).length == 1 && questionData.card_id === null) {
+                tagQuestionWithTextBox({ dashboardID, data: questionData, sessionID });
+            }
+        }
+        )).catch(error => {
             throw new Error(`Failed to import questions to the dashboard: ${selectedDashName} `);
         });
         logger.info('All the questions are imported successfully');
+
+        // updating all the questions imported in the dashboard
+        const cards = await prepareDashCardsUpdatePayload({ impDashQueList: questionsInImpdata.map(item => ({ ...item, name: item["card"]["name"] })), sessionID, dashboardID })
+
+        if (cards.length > 0) {
+            logger.info("Updating all the imported question in dashboard to fix sizes and location")
+            APIURL = `${global.credConfig.metabase.url}/api/dashboard/${dashboardID}/cards`;
+            options = {
+                headers: {
+                    'X-Metabase-Session': sessionID
+                },
+                body: JSON.stringify({ cards })
+            };
+            await sendRequest(null, options, 'PUT', APIURL, `to fix sizes and location of imported questions in dashboard`);
+            logger.info("Successfully updated all the questions imported in dashboard")
+        }
 
         // publishing newly created dashboard
         logger.info(`Publishing dashboard: ${selectedDashName} `);
@@ -275,7 +352,7 @@ async function importDashboard({ impdata, sessionID }) {
             type,
             dashOrQueId: dashboardID,
             sessionID,
-            name: selectedDashName,
+            name: selectedDashName
         });
         logger.info('Dashboard published successfully');
     } catch (error) {
@@ -287,16 +364,15 @@ async function importDashboard({ impdata, sessionID }) {
 }
 
 function updateDatabaseId({ currentObj, currentSeleDBID }) {
-    if (!currentObj.database_id || !currentObj.dataset_query) {
-        logger.error(`Can not find database_id or database in dataset_query property in provide json body ${currentObj} `);
-        throw new CredError("Required properties doesn't exist in json file.");
+    logger.info(`updateDatabaseId - CurrenObj Length - ${Object.keys(currentObj).length}`)
+    if (Object.keys(currentObj).length > 1) {
+        if (!currentObj.database_id || !currentObj.dataset_query) {
+            logger.error(`Can not find database_id or database in dataset_query property in provide json body ${currentObj} `)
+            throw new CredError("Required properties doesn't exist in json file.")
+        }
+        return { ...currentObj, database_id: currentSeleDBID, dataset_query: { ...currentObj.dataset_query, database: currentSeleDBID } }
     }
-
-    return {
-        ...currentObj,
-        database_id: currentSeleDBID,
-        dataset_query: { ...currentObj.dataset_query, database: currentSeleDBID },
-    };
+    return currentObj
 }
 
 class ImportCommand extends Command {
@@ -325,7 +401,7 @@ class ImportCommand extends Command {
             if (!fs.existsSync(directory.jsonFilePath) || path.extname(directory.jsonFilePath) !== '.json') {
                 logger.info(`Provided json file path: ${directory.jsonFilePath} `);
                 throw new CredError('Provided a valid path to the json file.', {
-                    suggestions: [`Run command ${chalk.yellowBright(`credcli metabase:import`)} `],
+                    suggestions: [`Run command ${chalk.yellowBright(`metabase import`)} `],
                 });
             }
 
@@ -369,7 +445,7 @@ class ImportCommand extends Command {
             logger.info(`Import successful`);
             this.console.log(`Import successful`);
         } catch (error) {
-            errorHandler(error, 'metabase');
+            util.errorHandler(error);
         }
     }
 }

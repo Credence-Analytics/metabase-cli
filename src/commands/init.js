@@ -16,16 +16,14 @@
 const { Command } = require('@oclif/core');
 const path = require('path');
 const { prompt } = require('enquirer');
-const chalk = require('chalk');
 const fs = require('fs');
-
-const { errorHandler } = require(path.join(__dirname, '../helper/patch/utils.js'));
+const chalk = require('chalk');
 
 const util = require(path.join(__dirname, '../util.js'));
 
 const { setConsoleLog, initLogger, CredError } = require(path.join(__dirname, '../helper/logger.js'));
 
-const logger = initLogger('metabase');
+const logger = initLogger();
 const { sendRequest } = require(path.join(__dirname, '../helper/api-utils.js'));
 setConsoleLog(Command);
 
@@ -119,18 +117,20 @@ class InitCommand extends Command {
             // logger.info(`Writing ${JSON.stringify(metabaseConfig)} to the metabase config file`);
 
             configPath = util.initCredConfig();
-
-            global.credConfig.metabase = { url, username, password };
+            global.credConfig.metabase = { url, username, password }
             await fs.writeFileSync(configPath, JSON.stringify(global.credConfig, null, 2));
+
             logger.info(`Config file saved at ${configPath}`);
             this.console.log(`Config file saved at ${chalk.greenBright(configPath)}`);
         } catch (error) {
-            errorHandler(error, 'metabase');
+            util.errorHandler(error);
         }
     }
 }
 
 InitCommand.description = `Initialize metabase configurations
 `;
+
+InitCommand.flags = {};
 
 module.exports = InitCommand;

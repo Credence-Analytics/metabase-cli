@@ -13,10 +13,10 @@ const fs = require('fs-extra');
 const chalk = require('chalk');
 const moment = require('moment');
 
-const { errorHandler } = require(path.join(__dirname, '../helper/patch/utils.js'));
+const util = require(path.join(__dirname, '../util.js'));
 const { setConsoleLog, initLogger, CredError } = require(path.join(__dirname, '../helper/logger.js'));
 
-const logger = initLogger('metabase');
+const logger = initLogger();
 const { sendRequest, validateCredConfig, getMetabaseSessionID } = require(path.join(__dirname, '../helper/api-utils.js'));
 
 setConsoleLog(Command);
@@ -33,7 +33,7 @@ async function storeResponse({ detailedInfo, basicInfo: { name: quesOrDashName }
                 date: formatDate(dateObj, 'YYYY-MM-DD'),
                 type,
                 typename: quesOrDashName,
-                data: detailedInfo,
+                data: detailedInfo
             },
             responseFilePath;
 
@@ -43,10 +43,10 @@ async function storeResponse({ detailedInfo, basicInfo: { name: quesOrDashName }
                 name: 'save',
                 message: 'Enter the export folder path',
                 initial: path.resolve('./'),
-                result: (input) => {
+                result: input => {
                     return path.resolve(input);
-                },
-            },
+                }
+            }
         ]);
 
         if (!fs.existsSync(directory.save) || !fs.statSync(directory.save).isDirectory()) {
@@ -63,20 +63,37 @@ async function storeResponse({ detailedInfo, basicInfo: { name: quesOrDashName }
     }
 }
 
+async function getSampleDatabase({ sessionID }) {
+    try {
+        let APIURL = `${global.credConfig.metabase.url}/api/database`,
+            options = {
+                headers: {
+                    'X-Metabase-Session': sessionID
+                }
+            };
+        jsonResponse = await sendRequest(null, options, 'GET', APIURL, "to get sample database");
+        return jsonResponse.data?.find((db) => db.is_sample && db)
+    } catch (error) {
+        error.name = 'Metabase API call failed';
+        logger.error(`${error.stack ? error.stack : error}`);
+        throw new CredError('Failed to get the list of databases');
+    }
+}
+
 async function exportDashboard({ sessionID }) {
     try {
         let APIURL = `${global.credConfig.metabase.url}/api/dashboard`,
             options = {
                 headers: {
-                    'X-Metabase-Session': sessionID,
-                },
+                    'X-Metabase-Session': sessionID
+                }
             },
             response,
             fileName,
             dashboardList = [];
 
         logger.info(`Fetching all the dashboards`);
-        response = await sendRequest(null, options, 'GET', APIURL, 'to get all the dashboards');
+        response = await sendRequest(null, options, 'GET', APIURL, "to get all the dashboards");
         logger.info('Successfully fetched all the dashboards');
 
         dashboardList = response.map(({ name, id }) => {
@@ -92,7 +109,7 @@ async function exportDashboard({ sessionID }) {
                 type: 'select',
                 name: 'info',
                 message: 'Please select the dashboard:',
-                result: (dashboardName) => {
+                result: dashboardName => {
                     let dashboardInfo;
                     dashboardList.map(({ name, id }) => {
                         if (name === dashboardName) {
@@ -101,18 +118,18 @@ async function exportDashboard({ sessionID }) {
                     });
                     return dashboardInfo;
                 },
-                choices: dashboardList.map(({ name }) => name),
-            },
+                choices: dashboardList.map(({ name }) => name)
+            }
         ]);
 
         const {
-            info: { id, name },
+            info: { id, name }
         } = dashboard;
 
         logger.info(`User has selected ${name} dashboard`);
         APIURL = `${global.credConfig.metabase.url}/api/dashboard/${id}`;
         logger.info(`Fetching Info. about dashboard ${name}`);
-        response = await sendRequest(null, options, 'GET', APIURL, 'to get detailed information of selected dashboard');
+        response = await sendRequest(null, options, 'GET', APIURL, "to get detailed information of selected dashboard");
         logger.info(`Successfully fetched dashboard ${name}`);
 
         fileName = `dashboard_${name}_`;
@@ -130,20 +147,26 @@ async function exportQuestion({ sessionID }) {
         let APIURL = `${global.credConfig.metabase.url}/api/card`,
             options = {
                 headers: {
-                    'X-Metabase-Session': sessionID,
-                },
+                    'X-Metabase-Session': sessionID
+                }
             },
             response,
             fileName,
-            questionsList = [];
+            questionsList = [], sampleDbInfo;
 
         logger.info(`Fetching all the questions`);
-        response = await sendRequest(null, options, 'GET', APIURL, 'to get all the questions');
+        response = await sendRequest(null, options, 'GET', APIURL, "to get all the questions");
         logger.info('Successfully fetched all the questions');
 
-        questionsList = response.map(({ name, id }) => {
-            return { name, id };
-        });
+        logger.info('Fetching sample database information');
+        sampleDbInfo = await getSampleDatabase({ sessionID });
+        logger.info(`Successfully fetched sample database information`);
+
+        if (!!sampleDbInfo) {
+            questionsList = response.filter(({ name, id, database_id }) => {
+                if (database_id !== sampleDbInfo.id) return { name, id }
+            });
+        }
 
         if (questionsList.length === 0) {
             throw new Error('There is no question available for export');
@@ -154,7 +177,7 @@ async function exportQuestion({ sessionID }) {
                 type: 'select',
                 name: 'info',
                 message: 'Please select the question:',
-                result: (questionName) => {
+                result: questionName => {
                     let questionInfo;
                     questionsList.map(({ name, id }) => {
                         if (name === questionName) {
@@ -163,18 +186,18 @@ async function exportQuestion({ sessionID }) {
                     });
                     return questionInfo;
                 },
-                choices: questionsList.map(({ name }) => name),
-            },
+                choices: questionsList.map(({ name }) => name)
+            }
         ]);
 
         const {
-            info: { id, name },
+            info: { id, name }
         } = question;
 
         logger.info(`User has selected ${name} question`);
         APIURL = `${global.credConfig.metabase.url}/api/card/${id}`;
         logger.info(`Fetching Info. about question ${name}`);
-        response = await sendRequest(null, options, 'GET', APIURL, 'to get detailed information of selected question');
+        response = await sendRequest(null, options, 'GET', APIURL, "to get detailed information of selected question");
         logger.info(`Successfully fetched question ${name}`);
 
         fileName = `question_${name}_`;
@@ -190,7 +213,7 @@ async function exportQuestion({ sessionID }) {
 class ExportCommand extends Command {
     async run() {
         try {
-            await validateCredConfig('metabase', 'Metabase not initialised.');
+            await validateCredConfig('metabase', "Metabase not initialised.");
 
             logger.info('Checking user sesssion');
             let sessionID = await getMetabaseSessionID();
@@ -201,8 +224,8 @@ class ExportCommand extends Command {
                     type: 'select',
                     name: 'main',
                     message: 'Please select one of the following:',
-                    choices: ['Dashboard', 'Question'],
-                },
+                    choices: ['Dashboard', 'Question']
+                }
             ]);
 
             if (choice.main === 'Dashboard') {
@@ -216,7 +239,7 @@ class ExportCommand extends Command {
             logger.info(`${choice.main} exported successfully`);
             this.console.log(`${chalk.greenBright(`${choice.main} exported successfully`)}`);
         } catch (error) {
-            errorHandler(error, 'metabase');
+            util.errorHandler(error);
         }
     }
 }
