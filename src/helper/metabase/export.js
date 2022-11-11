@@ -13,7 +13,7 @@ const chalk = require('chalk');
 const moment = require('moment');
 
 const { initLogger, CredError } = require(path.join(__dirname, '../../helper/logger.js'));
-const logger = initLogger('metabase');
+const logger = initLogger();
 
 function formatDate(dateObj, dateFormat) {
     return moment(dateObj).format(dateFormat);

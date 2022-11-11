@@ -27,7 +27,7 @@ describe('metabase delete', () => {
         deletitionOption = `D`,
         resultAfterDeletion,
         dashboardOrQuestionName,
-        confirmDeletion = 'N';
+        confirmDeletion = 'No';
 
     describe('Should delete dashboard/question', () => {
         it('Deleting dashboard/question', async () => {
@@ -38,9 +38,9 @@ describe('metabase delete', () => {
                 otherwise enter any valid name from the existingQuestionList array.
                 */
                 dashboardOrQuestionName = 'First dashboard';
-                confirmDeletion = 'Y';
+                confirmDeletion = 'Yes';
                 resultAfterDeletion = await deleteDashboardOrQuestion(listOfDashOrQue, dashboardOrQuestionName, confirmDeletion);
-                if (confirmDeletion === 'Y') {
+                if (confirmDeletion === 'Yes') {
                     expect(resultAfterDeletion.length).to.be.lt(listOfDashOrQue.length);
                     expect(resultAfterDeletion.find((x) => x.name === dashboardOrQuestionName)).to.be.eq(undefined);
                     return;
@@ -56,7 +56,7 @@ describe('metabase delete', () => {
             try {
                 listOfDashOrQue = [];
                 dashboardOrQuestionName = 'First question';
-                confirmDeletion = 'Y';
+                confirmDeletion = 'Yes';
                 resultAfterDeletion = await deleteDashboardOrQuestion(listOfDashOrQue, dashboardOrQuestionName, confirmDeletion);
             } catch (error) {
                 expect(error.message).to.be.eq('There is no item available for delete');

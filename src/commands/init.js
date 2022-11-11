@@ -19,13 +19,11 @@ const { prompt } = require('enquirer');
 const fs = require('fs');
 const chalk = require('chalk');
 
-const { errorHandler } = require(path.join(__dirname, '../helper/patch/utils.js'));
-
 const util = require(path.join(__dirname, '../util.js'));
 
 const { setConsoleLog, initLogger, CredError } = require(path.join(__dirname, '../helper/logger.js'));
 
-const logger = initLogger('metabase');
+const logger = initLogger();
 const { sendRequest } = require(path.join(__dirname, '../helper/api-utils.js'));
 setConsoleLog(Command);
 
@@ -116,7 +114,7 @@ class InitCommand extends Command {
             const { url } = metabase;
             const { username, password } = await checkUserSession(url);
 
-            logger.info(`Writing ${JSON.stringify(metabaseConfig)} to the metabase config file`);
+            // logger.info(`Writing ${JSON.stringify(metabaseConfig)} to the metabase config file`);
 
             configPath = util.initCredConfig();
             global.credConfig.metabase = { url, username, password }
@@ -125,7 +123,7 @@ class InitCommand extends Command {
             logger.info(`Config file saved at ${configPath}`);
             this.console.log(`Config file saved at ${chalk.greenBright(configPath)}`);
         } catch (error) {
-            errorHandler(error, 'metabase');
+            util.errorHandler(error);
         }
     }
 }

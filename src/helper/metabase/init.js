@@ -9,18 +9,17 @@ const path = require('path');
 
 const initializeMetabase = async (url, username, password) => {
     let metabaseConfig = { metabase: { url, username, password } },
-        configFileName = 'metacli_cfg.json',
-        metacliConfig;
+        configFileName = 'metabasecli_cfg.json',
+        metabasecliConfig;
 
-    // configPath = path.resolve(os.homedir(), '.credcli', configFileName);
     configPath = path.resolve(__dirname, '../../..', configFileName);
 
-    metacliConfig = metabaseConfig;
+    metabasecliConfig = metabaseConfig;
     if (fs.existsSync(configPath) && path.extname(configPath) === '.json') {
-        metacliConfig = await fs.readFile(configPath);
-        metacliConfig = { ...JSON.parse(metacliConfig), ...metabaseConfig };
+        metabasecliConfig = await fs.readFile(configPath);
+        metabasecliConfig = { ...JSON.parse(metabasecliConfig), ...metabaseConfig };
     }
-    await fs.outputFile(configPath, JSON.stringify(metacliConfig, null, 2));
+    await fs.outputFile(configPath, JSON.stringify(metabasecliConfig, null, 2));
 };
 
 module.exports = { initializeMetabase };

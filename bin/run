@@ -37,4 +37,4 @@ if (fs.existsSync(configFilePath)) {
     global.credConfig = JSON.parse(fs.readFileSync(configFilePath));
 }
 
-cmdObj.run().then(require('@oclif/command/flush')).catch(require('@oclif/errors/handle'));
+cmdObj.run().then(require('@oclif/core/flush')).catch(require('@oclif/errors/handle'));

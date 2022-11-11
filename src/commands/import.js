@@ -18,10 +18,10 @@ const https = require('https');
 const { cli } = require('cli-ux');
 const _ = require('lodash')
 
-const { errorHandler } = require(path.join(__dirname, '../helper/patch/utils.js'));
+const util = require(path.join(__dirname, '../util.js'));
 const { setConsoleLog, initLogger, CredError } = require(path.join(__dirname, '../helper/logger.js'));
 
-const logger = initLogger('metabase');
+const logger = initLogger();
 const { sendRequest, validateCredConfig, getMetabaseSessionID } = require(path.join(__dirname, '../helper/api-utils.js'));
 setConsoleLog(Command);
 
@@ -97,6 +97,25 @@ async function tagQuestion({ dashboardID, questionID: cardId, sessionID, selecte
             body: JSON.stringify(payload)
         };
         await sendRequest(null, options, 'POST', APIURL, `to tag question : ${selectedQueName.length > 25 ? `${selectedQueName.slice(0, 25)}...   ` : selectedQueName}`);
+    } catch (error) {
+        error.name = 'Metabase API call failed';
+        logger.error(`${error.stack ? error.stack : error}`);
+        throw new Error(`Failed to tag question`);
+    }
+}
+
+async function tagQuestionWithTextBox({ dashboardID, data, sessionID }) {
+    try {
+        let APIURL = `${global.credConfig.metabase.url}/api/dashboard/${dashboardID}/cards`,
+            options;
+
+        options = {
+            headers: {
+                'X-Metabase-Session': sessionID
+            },
+            body: JSON.stringify(data)
+        };
+        await sendRequest(null, options, 'POST', APIURL, `Creating a Textbox Question: ${data.visualization_settings.text}`);
     } catch (error) {
         error.name = 'Metabase API call failed';
         logger.error(`${error.stack ? error.stack : error}`);
@@ -211,11 +230,13 @@ async function prepareDashCardsUpdatePayload({ impDashQueList, sessionID, dashbo
             'X-Metabase-Session': sessionID,
             'Content-Type': 'application/json'
         },
-        method: "GET",
-        agent: new https.Agent({
-            rejectUnauthorized: false
-        })
+        method: "GET"
     };
+    if (APIURL && new URL(APIURL).protocol === 'https:') {
+        options.agent = new https.Agent({
+            rejectUnauthorized: false,
+        });
+    }
     const apiResponse = await fetch(APIURL, options);
     const jsonResponse = await apiResponse.json();
 
@@ -300,6 +321,8 @@ async function importDashboard({ impdata, sessionID }) {
         await Promise.all(questionsInImpdata.map(async questionData => {
             if (Object.keys(questionData.card).length > 1) {
                 importQuestion({ impdata: { data: questionData.card, type: 'Q' }, sessionID, tagging: true, dashboardID })
+            } else if (Object.keys(questionData.card).length == 1 && questionData.card_id === null) {
+                tagQuestionWithTextBox({ dashboardID, data: questionData, sessionID });
             }
         }
         )).catch(error => {
@@ -378,7 +401,7 @@ class ImportCommand extends Command {
             if (!fs.existsSync(directory.jsonFilePath) || path.extname(directory.jsonFilePath) !== '.json') {
                 logger.info(`Provided json file path: ${directory.jsonFilePath} `);
                 throw new CredError('Provided a valid path to the json file.', {
-                    suggestions: [`Run command ${chalk.yellowBright(`credcli metabase:import`)} `],
+                    suggestions: [`Run command ${chalk.yellowBright(`metabase import`)} `],
                 });
             }
 
@@ -422,7 +445,7 @@ class ImportCommand extends Command {
             logger.info(`Import successful`);
             this.console.log(`Import successful`);
         } catch (error) {
-            errorHandler(error, 'metabase');
+            util.errorHandler(error);
         }
     }
 }

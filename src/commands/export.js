@@ -13,10 +13,10 @@ const fs = require('fs-extra');
 const chalk = require('chalk');
 const moment = require('moment');
 
-const { errorHandler } = require(path.join(__dirname, '../helper/patch/utils.js'));
+const util = require(path.join(__dirname, '../util.js'));
 const { setConsoleLog, initLogger, CredError } = require(path.join(__dirname, '../helper/logger.js'));
 
-const logger = initLogger('metabase');
+const logger = initLogger();
 const { sendRequest, validateCredConfig, getMetabaseSessionID } = require(path.join(__dirname, '../helper/api-utils.js'));
 
 setConsoleLog(Command);
@@ -239,7 +239,7 @@ class ExportCommand extends Command {
             logger.info(`${choice.main} exported successfully`);
             this.console.log(`${chalk.greenBright(`${choice.main} exported successfully`)}`);
         } catch (error) {
-            errorHandler(error, 'metabase');
+            util.errorHandler(error);
         }
     }
 }
