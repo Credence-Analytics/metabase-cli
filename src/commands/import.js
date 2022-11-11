@@ -104,6 +104,25 @@ async function tagQuestion({ dashboardID, questionID: cardId, sessionID, selecte
     }
 }
 
+async function tagQuestionWithTextBox({ dashboardID, data, sessionID }) {
+    try {
+        let APIURL = `${global.credConfig.metabase.url}/api/dashboard/${dashboardID}/cards`,
+            options;
+
+        options = {
+            headers: {
+                'X-Metabase-Session': sessionID
+            },
+            body: JSON.stringify(data)
+        };
+        await sendRequest(null, options, 'POST', APIURL, `Creating a Textbox Question: ${data.visualization_settings.text}`);
+    } catch (error) {
+        error.name = 'Metabase API call failed';
+        logger.error(`${error.stack ? error.stack : error}`);
+        throw new Error(`Failed to tag question`);
+    }
+}
+
 async function publish({ type: flag, dashOrQueId: id, sessionID, name }) {
     try {
         let APIURL = flag === 'Q' ? `${global.credConfig.metabase.url}/api/card/${id}/public_link` : `${global.credConfig.metabase.url}/api/dashboard/${id}/public_link`,
@@ -302,6 +321,8 @@ async function importDashboard({ impdata, sessionID }) {
         await Promise.all(questionsInImpdata.map(async questionData => {
             if (Object.keys(questionData.card).length > 1) {
                 importQuestion({ impdata: { data: questionData.card, type: 'Q' }, sessionID, tagging: true, dashboardID })
+            } else if (Object.keys(questionData.card).length == 1 && questionData.card_id === null) {
+                tagQuestionWithTextBox({ dashboardID, data: questionData, sessionID });
             }
         }
         )).catch(error => {
