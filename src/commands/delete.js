@@ -8,7 +8,6 @@
 const { Command } = require('@oclif/core');
 const path = require('path');
 const { prompt } = require('enquirer');
-const fetch = require('node-fetch');
 const { cli } = require('cli-ux');
 const chalk = require('chalk');
 
@@ -76,16 +75,13 @@ async function deleteDashboardOrQuestion({ sessionID, flag }) {
             },
         ]);
 
-        if (confirm.answer === 'No') return;
+        if (confirm.answer === "No") return;
 
-        APIURL = flag === 'Q' ? `${global.credConfig.metabase.url}/api/card/${id}` : `${global.credConfig.metabase.url}/api/dashboard/${id}`;
+        APIURL = flag === "Q" ? `${global.credConfig.metabase.url}/api/card/${id}` : `${global.credConfig.metabase.url}/api/dashboard/${id}`;
         logger.info(`Deleting ${itemname} : ${dashboardOrQuestionName}`);
 
-        options['method'] = 'DELETE';
-        logger.info(`APIURL : ${APIURL} , options are : ${JSON.stringify(options)}`);
-
         cli.action.start(`${chalk.greenBright(' ')} Processing request to delete ${itemname} : ${dashboardOrQuestionName.length > 25 ? `${dashboardOrQuestionName.slice(0, 25)}...   ` : dashboardOrQuestionName}`, '', { stdout: true });
-        response = await fetch(APIURL, options);
+        await sendRequest(null, options, 'DELETE', APIURL, `Processing request to delete ${itemname} : ${dashboardOrQuestionName.length > 25 ? `${dashboardOrQuestionName.slice(0, 25)}...   ` : dashboardOrQuestionName}`);
         cli.action.stop('Done');
 
         if (!response.ok) {
