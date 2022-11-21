@@ -13,8 +13,6 @@ const path = require('path');
 const { prompt } = require('enquirer');
 const fs = require('fs-extra');
 const chalk = require('chalk');
-const fetch = require('node-fetch');
-const https = require('https');
 const { cli } = require('cli-ux');
 const _ = require('lodash')
 
@@ -227,18 +225,11 @@ async function prepareDashCardsUpdatePayload({ impDashQueList, sessionID, dashbo
 
     options = {
         headers: {
-            'X-Metabase-Session': sessionID,
-            'Content-Type': 'application/json'
-        },
-        method: "GET"
+            'X-Metabase-Session': sessionID
+        }
     };
-    if (APIURL && new URL(APIURL).protocol === 'https:') {
-        options.agent = new https.Agent({
-            rejectUnauthorized: false,
-        });
-    }
-    const apiResponse = await fetch(APIURL, options);
-    const jsonResponse = await apiResponse.json();
+
+    const jsonResponse = await sendRequest(null, options, 'GET', APIURL, `Prepare dashboard cards update based on payload`);
 
     jsonResponse["ordered_cards"]?.forEach(question => {
         let impDashQueDetails = impDashQueList.find(x => x["name"] === question["card"]["name"])
@@ -287,10 +278,8 @@ async function importDashboard({ impdata, sessionID }) {
                 dashboardID = dashboardExistance.id;
                 logger.info(`Dashboard already exist in metabase. Deleting dashboard...`);
                 APIURL = `${global.credConfig.metabase.url}/api/dashboard/${dashboardID}`;
-                options['method'] = 'DELETE';
-                logger.info(`APIURL : ${APIURL} , options are : ${JSON.stringify(options)}`);
                 cli.action.start(`${chalk.greenBright(' ')} Processing request to delete dashboard : ${selectedDashName.length > 25 ? `${selectedDashName.slice(0, 25)}...   ` : selectedDashName}`, '', { stdout: true });
-                await fetch(APIURL, options);
+                await sendRequest(null, options, 'DELETE', APIURL, `Processing request to delete dashboard : ${selectedDashName.length > 25 ? `${selectedDashName.slice(0, 25)}...   ` : selectedDashName}`);
                 cli.action.stop('Done');
                 logger.info(`Dashboard : ${selectedDashName} deleted successfully`);
             } catch (error) {

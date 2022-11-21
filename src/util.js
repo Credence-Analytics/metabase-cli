@@ -21,7 +21,7 @@ const chalk = require('chalk');
  function errorHandler(err, processType = 'standard') {
     // Set log location based on the command
     let logLocation;
-    logLocation = chalk.greenBright(path.resolve(`${os.homedir()}/.metabasecli/logs/%DATE%-result.log`));
+    logLocation = chalk.greenBright(path.resolve(`${os.homedir()}/.metabasecli/logs`));
     if (err.constructor.name === 'CredError') {
         if (processType !== 'docker') {
             if (Object.keys(err.options).includes('suggestions')) {
