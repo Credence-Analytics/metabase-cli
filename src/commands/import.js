@@ -262,7 +262,7 @@ async function importDashboard({ impdata, sessionID }) {
                 logger.info(`Dashboard already exist in metabase. Deleting dashboard...`);
                 APIURL = `${global.credConfig.metabase.url}/api/dashboard/${dashboardID}`;
                 cli.action.start(`${chalk.greenBright(' ')} Processing request to delete dashboard : ${selectedDashName.length > 25 ? `${selectedDashName.slice(0, 25)}...   ` : selectedDashName}`, '', { stdout: true });
-                await sendRequest(null, options, 'DELETE', APIURL, `Processing request to delete dashboard : ${selectedDashName.length > 25 ? `${selectedDashName.slice(0, 25)}...   ` : selectedDashName}`);
+                await sendRequest(null, options, 'DELETE', APIURL, `Processing request to delete dashboard : ${selectedDashName.length > 25 ? `${selectedDashName.slice(0, 25)}...   ` : selectedDashName}`, addHeaders = false);
                 cli.action.stop('Done');
                 logger.info(`Dashboard : ${selectedDashName} deleted successfully`);
             } catch (error) {

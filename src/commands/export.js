@@ -244,8 +244,7 @@ class ExportCommand extends Command {
     }
 }
 
-ExportCommand.description = `Export metabase dashboard/question
-`;
+ExportCommand.description = `Export metabase dashboard/question`;
 
 ExportCommand.flags = {};
 
