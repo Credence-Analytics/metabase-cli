@@ -47,19 +47,22 @@ async function getMetabaseSessionID() {
     }
 }
 
-async function sendRequest(route, options, method = 'POST', APIURL, label = '') {
+async function sendRequest(route, options, method = 'POST', APIURL, label = "", addHeaders = true) {
     try {
+        let jsonResponse = {};
         cli.action.start(`${chalk.greenBright(' ')} Processing request ${label}`, '', { stdout: true });
 
         options.method = method;
-        options.headers['Content-Type'] = 'application/json';
+        if (addHeaders) {
+            options.headers['Content-Type'] = 'application/json';
+        }
         if (method === 'GET') {
             delete options.body;
         }
 
-        if (APIURL && new URL(APIURL).protocol === 'https:') {
+        if (APIURL && new URL(APIURL).protocol === "https:") {
             options.agent = new https.Agent({
-                rejectUnauthorized: false,
+                rejectUnauthorized: false
             });
         }
 
@@ -69,8 +72,10 @@ async function sendRequest(route, options, method = 'POST', APIURL, label = '') 
         logger.info(`Header: ${JSON.stringify(options.headers)}`);
         logger.info(`Body: ${options.body}`);
         const apiResponse = await fetch(url, options);
-        const jsonResponse = await apiResponse.json();
-        logger.info(`Response: ${JSON.stringify(jsonResponse)}`);
+        if (addHeaders) {
+            jsonResponse = await apiResponse.json();
+            logger.info(`Response: ${JSON.stringify(jsonResponse)}`);
+        }
         cli.action.stop('Done');
         return jsonResponse;
     } catch (error) {
