@@ -10,6 +10,7 @@ const chalk = require('chalk');
 const path = require('path');
 const fs = require('fs-extra');
 const os = require('os');
+const cfonts = require('cfonts');
 
 const pkg = require(path.join(__dirname, '../package.json'));
 
@@ -20,14 +21,10 @@ const util = require(path.join(__dirname, '../src/util.js'));
 updateNotifier({ pkg }).notify();
 
 cmdObj.settings.debug = true;
+
+const metabasecli = cfonts.render("METABASE-CLI");
 console.log(
-    chalk.blueBright(`
-    __  ___  ______ ______  ___      ____   ___     _____   ______  ______  __     ___
-   /  |/  / / ____ /_  __/ /   |    / __ ) /   |   / ___/  / ____/ / ____  / /    /  /
-  / /|_/ / / __/    / /   / /| |   / __ / / /| |   |__ |  / __/   / /     / /    /  /  
- / /  / / / /___   / /   / ___ |  / /_// / ___ |  ___/ / / /___  / /___  / /__  /  /   
-/_/  /_/ /_____/  /_/   /_/  |_| /____/ /_/  |_/ |____/ /_____/ /_____/ /____/ /__/   
-`)
+    chalk.blueBright(metabasecli.string)
 );
 
 global.METABASE_PATH = path.resolve(__dirname, '../');
